@@ -500,7 +500,7 @@ app.get('/search', async(req, res) => {
         } else {
             resultTotal[i]["bidder"] = "Chưa có người ra giá";
             resultTotal[i]["top_price"] = resultTotal[i].start_price;
-            resultTotal[i]["count_bid"] = list_bidder_object.length + " lượt";
+            resultTotal[i]["count_bid"] = "0 lượt";
         }
         let difference_in_time = resultTotal[i].end_date.getTime() - dt.getTime();
         let difference_in_date = difference_in_time / (1000 * 3600 * 24);

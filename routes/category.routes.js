@@ -23,7 +23,7 @@ router.get('/:id/products', async(req, res) => {
 
     const [total, rows] = await Promise.all([
         categoryModel.count_product_by_cat('tblproduct', id),
-        categoryModel.all_product_not_expired('tblproduct', id)
+        categoryModel.all_product_by_cat('tblproduct', id)
     ]);
 
     const cat = await categoryModel.single_by_id('tblcategory', id);
@@ -91,7 +91,7 @@ router.get('/:id/products', async(req, res) => {
                 } else {
                     result[i]["bidder"] = "Chưa có người ra giá";
                     result[i]["top_price"] = result[i].start_price;
-                    result[i]["count_bid"] = list_bidder_object.length + " lượt";
+                    result[i]["count_bid"] = "0 lượt";
                 }
                 let difference_in_time = result[i].end_date.getTime() - dt.getTime();
                 let difference_in_date = difference_in_time / (1000 * 3600 * 24);
@@ -272,17 +272,24 @@ router.get('/:id/products', async(req, res) => {
                 }
             }
             console.log('ok',list_bidder_object);
-            const getBidderName = await categoryModel.single_by_id('tbluser', list_bidder_object[list_bidder_object?.length - 1]?.id);
+            console.log('ok', rows)
             let bidder_name = "";
-            //bidder_name = list_bidder_object[list_bidder_object.length - 1].name;
-            bidder_name = getBidderName[0].name;
-            bidder_name = bidder_name.substring(bidder_name.lastIndexOf(" ") + 1);
-            top_price = list_bidder_object[list_bidder_object.length - 1].price;
-            bidder_name = "****" + bidder_name;
-            // console.log(rows[i].end_date);
-            rows[i]["bidder"] = bidder_name;
-            rows[i]["top_price"] = top_price;
-            rows[i]["count_bid"] = list_bidder_object.length + " lượt";
+            if(list_bidder_object.length > 0){
+                const getBidderName = await categoryModel.single_by_id('tbluser', list_bidder_object[list_bidder_object?.length - 1]?.id);
+                //bidder_name = list_bidder_object[list_bidder_object.length - 1].name;
+                bidder_name = getBidderName[0].name;
+                bidder_name = bidder_name.substring(bidder_name.lastIndexOf(" ") + 1);
+                top_price = list_bidder_object[list_bidder_object.length - 1].price;
+                bidder_name = "****" + bidder_name;
+                // console.log(rows[i].end_date);
+                rows[i]["bidder"] = bidder_name;
+                rows[i]["top_price"] = top_price;
+                rows[i]["count_bid"] = list_bidder_object.length + " lượt";}
+            else{
+                rows[i]["bidder"] = "Chưa có ai đấu giá";
+                rows[i]["top_price"] = rows[i].start_price;
+                rows[i]["count_bid"] = "0 lượt";
+            }
             let difference_in_time = rows[i].end_date.getTime() - dt.getTime();
             let difference_in_date = difference_in_time / (1000 * 3600 * 24);
             if (difference_in_date >= 1 && difference_in_date < 4) {
@@ -568,7 +575,6 @@ router.get('/products/:id', async(req, res) => {
                 }
             }
         }
-        const getBidderName = await categoryModel.single_by_id('tbluser', list_bidder_object[list_bidder_object.length - 1].id);
         // let bidder_name = "";
         // //bidder_name = list_bidder_object[list_bidder_object.length - 1].name;
         // bidder_name= getBidderName[0].name;
@@ -577,14 +583,22 @@ router.get('/products/:id', async(req, res) => {
         // bidder_name = "****" + bidder_name;
 
         let bidder_name = "";
-        bidder_name = getBidderName[0].name;
+        if (list_bidder_object.length > 0) {
+            const getBidderName = await categoryModel.single_by_id('tbluser', list_bidder_object[list_bidder_object.length - 1].id);
+            bidder_name = getBidderName[0].name;
 
-        bidder_name = bidder_name.substring(bidder_name.lastIndexOf(" ") + 1);
-        top_price = list_bidder_object[list_bidder_object.length - 1].price;
-        bidder_name = "****" + bidder_name;
-        categoryProduct[i]["bidder"] = bidder_name;
-        categoryProduct[i]["top_price"] = top_price;
-        categoryProduct[i]["count_bid"] = list_bidder_object.length + " lượt";
+            bidder_name = bidder_name.substring(bidder_name.lastIndexOf(" ") + 1);
+            top_price = list_bidder_object[list_bidder_object.length - 1].price;
+            bidder_name = "****" + bidder_name;
+            categoryProduct[i]["bidder"] = bidder_name;
+            categoryProduct[i]["top_price"] = top_price;
+            categoryProduct[i]["count_bid"] = list_bidder_object.length + " lượt";
+        }
+        else{
+            categoryProduct[i]["bidder"] = "Chưa có ai đấu giá";
+            categoryProduct[i]["top_price"] = categoryProduct[i].start_price;
+            categoryProduct[i]["count_bid"] = "0 lượt";
+        }
         let difference_in_time = categoryProduct[i].end_date.getTime() - dt.getTime();
         let difference_in_date = difference_in_time / (1000 * 3600 * 24);
         if (difference_in_date >= 1 && difference_in_date < 4) {

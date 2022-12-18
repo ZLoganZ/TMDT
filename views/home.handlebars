@@ -339,9 +339,15 @@
                                                                             <!-- rating  -->
                                                                             <div class="reviews-content">
                                                                                 <div class="star"></div>
-                                                                                <div class="item-number-rating">
-                                                                                    {{count}} lượt
+                                                                                {{#if count}}
+                                                                                    <div class="item-number-rating">
+                                                                                        {{count}} lượt đấu giá
+                                                                                    </div>
+                                                                                {{else}}
+                                                                                    <div class="item-number-rating">
+                                                                                    Chưa có ai đấu giá
                                                                                 </div>
+                                                                                {{/if}}   
                                                                             </div>
                                                                             <!-- end rating  -->
                                                                             <h4><a href="#">{{name}}</a></h4>

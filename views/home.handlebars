@@ -25,7 +25,7 @@
                                     </ol>
                                     <div class="carousel-inner">
                                         <div class="carousel-item active">
-                                            <a href="#">
+                                            <a href="/category/products/{{this.activeItem.id}}">
                                                 <img src="/picture/product/{{this.activeItem.id}}/main1.jpg" class="d-block w-100 max-high-caro" alt="caso_1">
                                                 <div class="carousel-caption d-none d-md-block">
                                                     <h4 class="text-info font-weight-bold">{{this.activeItem.name}}</h4>
@@ -50,7 +50,7 @@
                                         </div>
                                         {{#each this.list_ended1}}
                                         <div class="carousel-item">
-                                            <a href="#">
+                                            <a href="/category/products/{{id}}">
                                                 <img src="/picture/product/{{id}}/main1.jpg" class="d-block w-100 max-high-caro" alt="caso_1">
                                                 <div class="carousel-caption d-none d-md-block">
                                                     <h4 class="text-info font-weight-bold">{{name}}</h4>
@@ -102,7 +102,7 @@
                                     <div class="wpb_wrapper">
                                         {{#each this.list_ended2}}
                                             <div class="wpb_single_image wpb_content_element vc_align_center container">
-                                                <a href="#">
+                                                <a href="/category/products/{{id}}">
                                                     <img width="563" src="/picture/product/{{id}}/main1.jpg" class="vc_single_image-img attachment-full lazyloaded max-high-end-pic" alt="">
                                                     <div class="carousel-caption d-none d-md-block">
                                                         <div class="row">
@@ -146,7 +146,7 @@
                                     <div class="wpb_wrapper">
                                         <div class="wpb_single_image wpb_content_element vc_align_center banner-none container">
                                             <figure class="wpb_wrapper vc_figure">
-                                                <a href="#" target="_blank" class="vc_single_image-wrapper   vc_box_border_grey">
+                                                <a href="/category/products/{{this.first_top_price.id}}" class="vc_single_image-wrapper   vc_box_border_grey">
                                                     <img src="/picture/product/{{this.first_top_price.id}}/main1.jpg " class="vc_single_image-img attachment-full lazyloaded size-first-top-price-pic" alt="">
                                                     <div class="bottom-right">
                                                         <div>{{this.first_top_price.end_date_format}}</div>
@@ -184,7 +184,7 @@
                                                                 <div class="item-wrap">
                                                                     <div class="item-detail">
                                                                         <div class="item-content">
-                                                                            <h4><a href="#">{{name}}</a></h4>
+                                                                            <h4><a href="/category/products/{{id}}">{{name}}</a></h4>
                                                                             <!-- Price -->
                                                                             <div class="item-price">
                                                                                 <div class="row ml-2">
@@ -202,7 +202,7 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="item-img products-thumb">
-                                                                            <a href="#">
+                                                                            <a href="/category/products/{{id}}">
                                                                                 <div class="product-thumb-hover">
                                                                                     <img src="/picture/product/{{id}}/main1.jpg " class="attachment-shop_catalog size-shop_catalog wp-post-image ls-is-cached lazyloaded size-top-price-pic" alt="">
                                                                                 </div>
@@ -350,7 +350,7 @@
                                                                                 {{/if}}   
                                                                             </div>
                                                                             <!-- end rating  -->
-                                                                            <h4><a href="#">{{name}}</a></h4>
+                                                                            <h4><a href="/category/products/{{id}}">{{name}}</a></h4>
                                                                             <!-- Price -->
                                                                             <div class="item-price">
                                                                                 <div class="row ml-2">
@@ -368,7 +368,7 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="item-img products-thumb">
-                                                                            <a href="#">
+                                                                            <a href="/category/products/{{id}}">
                                                                                 <div class="product-thumb-hover">
                                                                                     <img src="/picture/product/{{id}}/main1.jpg" class="attachment-shop_catalog size-shop_catalog wp-post-image ls-is-cached lazyloaded size-popular-pic" alt="">
                                                                                 </div>

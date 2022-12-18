@@ -9249,7 +9249,7 @@ select:-webkit-autofill {
 
 .item-wrap:hover .item-image-countdown img,
 .item-wrap:hover .item-img img {
-    opacity: 0.7;
+    opacity: 1;
 }
 
 .item-wrap:hover .item-image-countdown .item-bottom,

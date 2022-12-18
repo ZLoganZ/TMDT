@@ -1,0 +1,37 @@
+{
+  "name": "1412180",
+  "version": "1.0.0",
+  "main": "myscript.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "express": "4.17.1",
+    "express-async-errors": "^3.1.1",
+    "express-flash": "git://github.com/RGBboy/express-flash.git",
+    "express-handlebars": "^3.1.0",
+    "express-handlebars-sections": "^1.0.1",
+    "express-session": "^1.17.0",
+    "fs": "0.0.1-security",
+    "http-server": "^0.12.1",
+    "moment": "^2.24.0",
+    "morgan": "^1.9.1",
+    "multer": "^1.4.2",
+    "mysql": "^2.17.1",
+    "numeral": "^2.0.6",
+    "passport": "^0.4.1",
+    "passport-facebook": "^3.0.0",
+    "passport-local": "^1.0.0",
+    "request": "^2.88.0",
+    "sleep": "^6.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  },
+  "description": ""
+}

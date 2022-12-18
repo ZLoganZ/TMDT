@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href="/assets/img/favicon.ico">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>Quản lý</title>
+
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+    <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
+
+    <!-- Bootstrap core CSS     -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
+
+    <!--  Light Bootstrap Table core CSS    -->
+    <link href="/static/css/light-bootstrap-dashboard.css?v=1.4.0" rel="stylesheet" />
+
+    <!--     Fonts and icons     -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
+    <!-- Theme included stylesheets -->
+    <link href="https://cdn.quilljs.com/1.1.9/quill.snow.css" rel="stylesheet">
+</head>
+
+<body onload="init()">
+    <div class="wrapper">
+        <div class="sidebar" data-color="red" data-image="/assets/img/sidebar-5.jpg">
+            <div class="sidebar-wrapper">
+                <div class="logo">
+                    <a href="#" class="simple-text">
+                        ONLINE AUTION
+                    </a>
+                </div>
+
+                <ul class="nav">
+                    {{#if isAuthenticated}}
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="/account/profile">
+                            <i class="pe-7s-graph"></i>
+                            <p class="mb-0">Thông tin cá nhân</p>
+                        </a>
+                    </li>
+                    {{/if}}
+                    {{#if isSeller}}
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="/seller/product/">
+                            <i class="pe-7s-note2"></i>
+                            <p class="mb-0">Các sản phẩm đang bán</p>
+                        </a>
+                    </li>
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="/seller/product/selled">
+                            <i class="pe-7s-note2"></i>
+                            <p class="mb-0">Các sản phẩm đã bán</p>
+                        </a>
+                    </li>
+                    {{/if}}
+                    {{#if isAdmin}}
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="/admin/category">
+                            <i class="pe-7s-news-paper"></i>
+                            <p class="mb-0">Quản lý danh mục</p>
+                        </a>
+                    </li>
+                    <li class="pl-3 my-li-dashboard my-active">
+                        <a href="/admin/product">
+                            <i class="pe-7s-science"></i>
+                            <p class="mb-0">Quản lý sản phẩm</p>
+                        </a>
+                    </li>
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="/admin/user">
+                            <i class="pe-7s-map-marker"></i>
+                            <p class="mb-0">Quản lý người dùng</p>
+                        </a>
+                    </li>
+                    {{/if}}
+                    {{#if isBidder}}
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="/bidder/product/list_bidding">
+                            <i class="pe-7s-news-paper"></i>
+                            <p class="mb-0">Các sản phẩm đang đấu giá</p>
+                        </a>
+                    </li>
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="/bidder/product/winner">
+                            <i class="pe-7s-science"></i>
+                            <p class="mb-0">Các sản phẩm đã thắng</p>
+                        </a>
+                    </li>
+                    {{/if}}
+                    {{#if isAuthenticated}}
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="javascript: logOut()">
+                            <i class="pe-7s-graph"></i>
+                            <p class="mb-0">Thoát</p>
+                        </a>
+                    </li>
+                    {{/if}}
+                </ul>
+            </div>
+        </div>
+
+        <div class="main-panel">
+            <nav class="navbar navbar-default navbar-fixed">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="#">Quản lý người dùng</a>
+                    </div>
+                </div>
+            </nav>
+            <h4 class="ml-5">Danh sách người dùng:</h4>
+            <div class="row">
+                {{!-- <div class="col-sm-1">
+                </div> --}}
+                <div class="col-sm-12 ml-1 mr-1">
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col" width="1%" style="font-weight:bold;">STT</th>
+                                <th scope="col" width="14%" style="font-weight:bold;">Tên người dùng</th>
+                                <th scope="col" width="10%" style="font-weight:bold;">Số điện thoại</th>
+                                <th scope="col" width="25%" style="font-weight:bold;">Địa chỉ</th>
+                                <th scope="col" width="15%" style="font-weight:bold;">Email</th>
+                                <th scope="col" width="10%" style="font-weight:bold;">Quyền</th>
+                                <th scope="col" width="8%" style="font-weight:bold;">Muốn làm seller</th>
+                                <th scope="col" width="7%" style="font-weight:bold;">Trạng thái</th>
+                                <th scope="col" width="10%" style="font-weight:bold;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each this.listUser}}
+                            <tr>
+                                <th scope="row">{{id}}</th>
+                                <td>{{name}}</td>
+                                <td>{{formatPhone phone}}</td>
+                                <td>{{address}}</td>
+                                <td>{{email}}</td>
+                                <td>{{role_name}}</td>
+                                <td>{{#if is_approve_seller}}Đang xin{{else}}Không{{/if}}</td>
+                                <td>{{status}}</td>
+                                <td>
+                                    <button class="btn btn-success my-category-button" data-toggle="modal"
+                                        data-target="#exampleModalCenter" onclick="viewUser({{id}})"><i
+                                            class="fa fa-edit"></i></button>
+                                    <button class="btn btn-danger my-category-button"><i class="fa fa-trash"
+                                            onclick="deleteUser({{id}})"></i></button>
+                                </td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                    <hr>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog my-category-modal" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="exampleModalLongTitle">Thông tin chi tiết</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body my-content-modal" style="background-color: #f7f7f8;">
+                            <form method="POST" id="form-edit-user">
+                                <input name="user_id" id="user_id" type="text" class="my-product-input pl-2"
+                                    value="Nguyễn Thái Hoàng" readonly style="display: none;" />
+                                <div class="row mt-5 form-group">
+                                    <div class="col-sm-3 text-right">
+                                        <label for="user_name">Tên người dùng:</label>
+                                    </div>
+                                    <div class="col-sm-6 ">
+                                        <input name="user_name" id="user_name" type="text" class="my-product-input pl-2"
+                                            value="Nguyễn Thái Hoàng" readonly />
+                                    </div>
+                                </div>
+
+                                <div class="row mt-2 form-group">
+                                    <div class="col-sm-3 text-right">
+                                        <label for="user_email">Email:</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input name="user_email" id="user_email" type="text"
+                                            class="my-product-input pl-2" value="nthoang1996@gmail.com" readonly />
+                                    </div>
+                                </div>
+
+                                <div class="row mt-2 form-group">
+                                    <div class="col-sm-3 text-right">
+                                        <label for="user_phone">Số điện thoại:</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" name="user_phone" id="user_phone"
+                                            class="my-product-input pl-2" value="0936252722" readonly />
+                                    </div>
+                                </div>
+
+                                <div class="row mt-2 form-group">
+                                    <div class="col-sm-3 text-right">
+                                        <label for="user_address">Địa chỉ:</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="my-product-input pl-2" name="user_address"
+                                            id="user_address" value="c4/6d Lê Đình Chi H.Bình Chánh TP.Hồ Chí Minh"
+                                            readonly />
+                                    </div>
+                                </div>
+
+                                <div class="row mt-2 form-group">
+                                    <div class="col-sm-3 text-right">
+                                        <label for="user_role">Quyền</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input id="chxboxAdmin" type="checkbox" name="role" value="1"> Quản trị viên
+                                        <input id="chxboxSeller" type="checkbox" name="role" value="2"
+                                            class="ml-3">Người bán
+                                        <input id="chxboxBidder" type="checkbox" name="role" value="3"
+                                            class="ml-3">Người đấu giá
+                                    </div>
+                                </div>
+
+                                <div class="row mt-2 form-group">
+                                    <div class="col-sm-3 text-right">
+                                        <label for="user_status">Trạng thái</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <select class="my-product-select" data-selected="" name="user_status"
+                                            id="user_status">
+                                            <option value="" disabled="disabled">Vui lòng chọn 1 trạng thái</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-2 d-flex justify-content-end">
+                                    <div class="modal-footer">
+                                        <button type="submit" formaction="/admin/user/edit"
+                                            class="btn btn-success mr-3"><i class="fa fa-save"></i>&nbsp;Lưu</button>
+                                        <button type="button" class="btn btn-danger" onclick="closeModal()"><i
+                                                class="fa fa fa-arrow-left"></i>&nbsp;Quay lại</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="footer mt-2">
+                <div class="container-fluid">
+                    <nav class="pull-left">
+                        <ul>
+                            <li>
+                                <a href="#">
+                                    Trang chủ
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Công ty
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Danh mục đầu tư
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Blog
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <p class="copyright pull-right">
+                        <a href="#">ONLINE AUTION</a>
+                    </p>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function viewUser(id) {
+            $.ajax({
+                url: "/admin/user/get_user/" + id, async: false, success: function (result) {
+                    $('#chxboxAdmin').prop('checked', false);
+                    $('#chxboxSeller').prop('checked', false);
+                    $('#chxboxBidder').prop('checked', false);
+                    console.log(result);
+                    $("#user_id").val(result.id);
+                    $("#user_name").val(result.name);
+                    $("#user_email").val(result.email);
+                    $("#user_phone").val(result.phone);
+                    $("#user_address").val(result.address);
+                    $("#user_role").val(result.role);
+                    let listRole = JSON.parse(result.role);
+                    for (let i = 0; i < listRole.length; i++) {
+                        if (listRole[i] === 1) {
+                            $('#chxboxAdmin').prop('checked', true);
+                        }
+                        else if (listRole[i] === 2) {
+                            $('#chxboxSeller').prop('checked', true);
+                        }
+                        else {
+                            $('#chxboxBidder').prop('checked', true);
+                        }
+                    }
+                    $("#user_status").val(result.is_active);
+                }
+            });
+        }
+
+        function closeModal() {
+            $('#exampleModalCenter').modal('toggle');
+        }
+
+        function init() {
+            /*$.ajax({
+                url: '/admin/user/get_userrole',
+                success: function (result) {
+                    for(let i = 0; i<result.length; i++){
+                        let role_name_vn = "";
+                        if(result[i].name === "Admin"){
+                            role_name_vn = "Quản trị viên";
+                        }
+                        else if(result[i].name === "Seller"){
+                            role_name_vn = "Người bán";
+                        }
+                        else{
+                            role_name_vn = "Người đấu giá";
+                        }
+                        $("#user_role").append(`<option value="${result[i].id}" >${role_name_vn}</option>`)
+                    }
+                },
+                async: false
+            });*/
+            $.ajax({
+                url: '/admin/user/get_userstatus',
+                success: function (result) {
+                    for (let i = 0; i < result.length; i++) {
+                        let status_name_vn = "";
+                        if (result[i].name === "Active") {
+                            status_name_vn = "Bình thường";
+                        }
+                        else {
+                            status_name_vn = "Vô hiệu hóa";
+                        }
+                        $("#user_status").append(`<option value="${result[i].id}" >${status_name_vn}</option>`)
+                    }
+                },
+                async: false
+            });
+        }
+
+        function deleteUser(id) {
+            $.post('/admin/user/delete', { "id": id }, function (response) {
+                location.reload();
+            });
+        }
+
+        function logOut() {
+            $.ajax({
+                async: false,
+                type: "POST",
+                url: '/account/logout',
+            });
+            location.reload();
+        }
+    </script>
+</body>
+
+</html>

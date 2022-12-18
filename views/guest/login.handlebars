@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/static/css/login.css">
+    <title>Login Form</title>
+</head>
+
+<body class="bg">
+
+    <div class="d-flex justify-content-center align-items-center login-container">
+        <form class="login-form text-center" method="POST">
+            <h1 class="mb-5 font-weight-light text-uppercase">Đăng nhập</h1>
+            {{#if error}}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{error}}
+            </div>
+            {{/if}}
+            <div class="form-group">
+                <input type="text" name="email" class="form-control rounded-pill form-control-lg" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" class="form-control rounded-pill form-control-lg" placeholder="Mật khẩu">
+            </div>
+            <div class="forgot-link form-group d-flex justify-content-between align-items-center">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="remember">
+                    <label class="form-check-label" for="remember">Lưu thông tin của tôi</label>
+                </div>
+                <a href="#">Quên mật khẩu</a>
+            </div>
+
+            <button type="submit" class="btn mt-5 rounded-pill btn-lg btn-custom btn-block text-uppercase">Đăng nhập
+                </button>
+            <p class="mt-3 font-weight-normal">Không có tài khoản? <a href="/account/register"><strong>Đăng ký ngay</strong></a></p>
+
+            <button type="submit" class="btn-google btn rounded-pill btn-lg  btn-block text-uppercase">Đăng nhập bằng Google</button>
+            <button type="submit" class="btn-facebook btn rounded-pill btn-lg btn-custom btn-block text-uppercase">Đăng nhập bằng Facebook</button>
+        </form>
+    </div>
+
+</body>
+
+</html>

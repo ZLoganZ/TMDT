@@ -1,0 +1,124 @@
+.category-header {
+    font-weight: 700;
+    color: red;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    min-width: 500px;
+}
+
+.container-header {
+    max-width: 1170px;
+    margin: auto !important;
+}
+#table_evaluate th{
+    font-size:1.3rem;
+    text-align: center;
+}
+#table_evaluate td{
+    font-size:1.3rem;
+    text-align: center;
+}
+.sort-order {
+    width: 34px;
+    height: 34px;
+    background: white;
+    color: black;
+    border: 1px solid black;
+    border-radius: 5px 0px 0px 5px !important;
+    border-right: 1px solid #D7DBDD !important;
+}
+
+.select-order {
+    background: white;
+    color: black;
+    border-radius: 0px 5px 5px 0px !important;
+    min-width: 160px;
+    border-top: 1px solid black;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.option-order {
+    max-width: 122px;
+    padding: 6px 12px;
+    font: 14px sans-serif;
+}
+
+.content-date {
+    height: 30px;
+    width: 50px;
+    background-color: #f16543;
+    color: #ffffff;
+    border-radius: 3px;
+    line-height: 30px;
+    border: 0px solid #ffffff;
+    font-size: 14px;
+    transform: rotate(0deg);
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
+}
+
+.font-date {
+    background-color: #f16543;
+    border-color: #f16543;
+}
+
+.no-spacing {
+    margin: 0 !important;
+}
+
+.button-sort {
+    font-size: 12px !important;
+    background-color: #9097B4 !important;
+}
+
+.bidder-name {
+    position: absolute;
+    top: 0;
+    font-size: 12px;
+    font-weight: bold;
+    background-color: #000000;
+    color: #ffffff;
+    border: 1px solid black;
+    border-bottom-right-radius: 5px;
+    padding: 5px 10px;
+}
+
+.count-bid {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 12px;
+    font-weight: bold;
+    background-color: #FC445D;
+    color: #ffffff;
+    border: 1px solid #FC445D;
+    border-bottom-left-radius: 5px;
+    padding: 5px 10px;
+}
+
+.title-product {
+    min-width: 1170px;
+    font-weight: bold;
+}
+
+.container-product {
+    margin-top: 10px;
+}
+
+.my-size-small {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #FC445D;
+    border-radius: 5px !important;
+    margin-right: 3px;
+}
+
+.my-image {
+    width: 193px;
+    height: 193px;
+}
+
+.my-disabled {
+    pointer-events: none;
+    cursor: default;
+}

@@ -1,0 +1,641 @@
+{{#section 'js'}}
+<script>
+    function showImage(str) {
+        $("#img-container").attr("src", str);
+    }
+
+    let count = 0;
+    function bid(id) {
+        if (count == 0) {
+            $('.modal-body').append('<p class ="text-danger">Bạn có chắc chắn đấy gía sản phẩm này không</p>');
+            $("#text-price").prop("disabled", true);
+            count++;
+        }
+        else {
+            let data = { id: id, price: $("#text-price").val() };
+            $.ajax({
+                type: "POST",
+                url: '/bidder/product/bid_product',
+                data: data,
+                success: function (result) {
+                    if (result.success) {
+                        location.reload();
+                    }
+                },
+            });
+        }
+    }
+
+    function addToFav(id) {
+        event.preventDefault();
+        $.ajax({
+            global: false,
+            type: 'POST',
+            url: '/bidder/product/fav',
+            dataType: 'html',
+            data: {
+                id
+            },
+            success: function (result) {
+                console.log(result);
+            },
+            error: function (request, status, error) {
+                serviceError();
+            }
+        });
+    }
+   function deleteBidder(number,id){
+       console.log("number: ",number,"id: ",id);
+        $.ajax({
+            global: false,
+            type: 'POST',
+            url: '/bidder/product/del',
+          
+            data: {
+                id,
+                number
+            },
+            success: function (result) {
+                
+                 if (result.success == true) {
+                 
+                        location.reload();
+                    }
+            },
+            error: function (request, status, error) {
+                serviceError();
+            }
+        });
+   }
+</script>
+{{/section}}
+<div class="listings-title">
+    <div class="container">
+        <div class="wrap-title">
+            <h1 class="title-product">{{this.product.name}}</h1>
+        </div>
+    </div>
+</div>
+<div class="container container-product">
+    <figure class="woocommerce-product-gallery__wrapper">
+        <div class="product-images-container clearfix thumbnail-bottom">
+            <!-- Image Slider -->
+            <div class="slider product-responsive slick-initialized slick-slider">
+                <div aria-live="polite" class="slick-list draggable" tabindex="0">
+                    <div class="slick-track">
+                        <div class="woocommerce-product-gallery__image slick-slide slick-active" data-slick-index="0"
+                            aria-hidden="false"
+                            style="width: 370px; position: relative; left: 0px; top: 0px; z-index: 900; opacity: 1;">
+                            <a href="javascript:;"><img id="img-container" width="568" height="568"
+                                    src="/picture/product/{{this.product.id}}/main1.jpg"
+                                    class="wp-post-image lazyloaded" alt=""></a>
+                        </div>
+
+                        <div class="card container-info-product">
+                            <div class="card-header title-container">
+                                Thông tin sản phẩm
+                            </div>
+                            <div class="card-body">
+                                <div class="row d-flex justify-content-center">
+                                    <div class="time-expired">
+                                        {{this.product.end_date_format}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="info">
+                                            <label>Người bán:</label>
+                                            <label>{{this.product.seller_name}}</label>
+                                        </div>
+                                        <div class="info">
+                                            <label>Liên hệ:</label>
+                                            <label>{{formatPhone this.product.seller_phone}}-{{this.product.seller_email}}</label>
+                                        </div>
+
+                                        <div class="info">
+                                            <label>Điểm:</label>
+                                          
+                                            <label><a href="/category/list_evaluate/seller/{{this.product.seller_id}}">{{this.product.seller_point}}%&nbsp;</a><img width="20" height="20"
+                                                    style="display: inline-block;"
+                                                    src="{{#if this.product.react_haha}}/picture/icon/smile.png{{else}}/picture/icon/sad.jpg{{/if}}" /></label>
+                                        </div>
+
+                                        <div class="info">
+                                            <label>Thời điểm đăng:</label>
+                                            <label>{{this.product.start_date_format}}</label>
+                                        </div>
+
+                                        <div class="info">
+                                            <label>Thời điểm kết thúc:</label>
+                                            <label>{{this.product.end_date_format}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-5 container-price">
+                                        <div class="row">
+                                            <div class="col-sm-7">
+                                                <label>Giá cao nhất:</label>
+                                            </div>
+                                            <div class="col-sm-5 d-flex justify-content-end">
+                                                <label>{{format this.product.top_price}}</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-7">
+                                                <label>Giá mua ngay:</label>
+                                            </div>
+                                            <div class="col-sm-5 d-flex justify-content-end">
+                                                <label>{{format this.product.buynow_price}}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-7">
+                                                <label>Giá khởi điểm:</label>
+                                            </div>
+                                            <div class="col-sm-5 d-flex justify-content-end">
+                                                <label>{{format this.product.start_price}}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-7">
+                                                <label>Bội số:</label>
+                                            </div>
+                                            <div class="col-sm-5 d-flex justify-content-end">
+                                                <label>{{format this.product.min_increase}}</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-7">
+                                                <label>Người ra giá cao nhất:</label>
+                                            </div>
+                                            <div class="col-sm-5 ">
+                                                <label>{{this.product.top_bidder}}</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-7">
+                                                <label>Điểm:</label>
+                                            </div>
+                                            <div class="col-sm-5 ">
+                                                <label>{{this.product.bidder_point}}%&nbsp;<img width="20" height="20"
+                                                        style="display: inline-block;"
+                                                        src="{{#if this.product.bidder_react_haha}}/picture/icon/smile.png{{else}}/picture/icon/sad.jpg{{/if}}" /></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="product-description">
+                                    <div class="header-description">
+                                        Mô tả thêm:
+                                    </div>
+                                    <div class="content-description">
+                                        {{{this.product.description}}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <button class="image-button container-thumbnails"
+                        onclick="showImage('/picture/product/{{this.product.id}}/main1.jpg')">
+                        <img width="100" height="100" src="/picture/product/{{this.product.id}}/main1.jpg"
+                            class="attachment-shop_thumbnail size-shop_thumbnail lazyloaded" alt="" />
+                    </button>
+                    <button class="image-button container-thumbnails"
+                        onclick="showImage('/picture/product/{{this.product.id}}/main2.jpg')">
+                        <img width="100" height="100" src="/picture/product/{{this.product.id}}/main2.jpg"
+                            class="attachment-shop_thumbnail size-shop_thumbnail lazyloaded" alt="" />
+                    </button>
+                    <button class="image-button container-thumbnails"
+                        onclick="showImage('/picture/product/{{this.product.id}}/main3.jpg')">
+                        <img width="100" height="100" src="/picture/product/{{this.product.id}}/main3.jpg"
+                            class="attachment-shop_thumbnail size-shop_thumbnail lazyloaded" alt="" />
+                    </button>
+                    <button class="image-button container-thumbnails"
+                        onclick="showImage('/picture/product/{{this.product.id}}/main4.jpg')">
+                        <img width="100" height="100" src="/picture/product/{{this.product.id}}/main4.jpg"
+                            class="attachment-shop_thumbnail size-shop_thumbnail lazyloaded" alt="" />
+                    </button>
+                    <button class="image-button container-thumbnails"
+                        onclick="showImage('/picture/product/{{this.product.id}}/main5.jpg')">
+                        <img width="100" height="100" src="/picture/product/{{this.product.id}}/main5.jpg"
+                            class="attachment-shop_thumbnail size-shop_thumbnail lazyloaded" alt="" />
+                    </button>
+                </div>
+
+                <div class="col-sm-8 d-flex justify-content-center">
+                    <div class="container-button ">
+                        <button class="button-favorite" style="margin-left:10px; margin-right:10px;" data-toggle="modal"
+                            data-target="#modal_confirm_price" {{#if isBidder}}{{else}}disabled{{/if}} {{#if this.validValidate}}{{else}}disabled{{/if}} {{#if this.isOwnProduct}}disabled{{/if}}>&#10004;&nbsp;Ra
+                            giá</button>
+                    </div>
+                    <div class="container-button">
+                        <button class="button-favorite" style="margin-left:10px;"
+                            onclick="addToFav({{this.product.id}})"
+                            {{#if isBidder}}{{else}}disabled{{/if}}>&#11088;&nbsp;Thêm vào mục yêu
+                            thích</button>
+                    </div>
+                </div>
+            </div>
+            {{#if isAuthenticated}}
+            {{else}}
+            <div class="row">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-8 d-flex justify-content-center text-danger">Bạn phải đăng nhập mới có thể ra giá
+                    hoặc thêm sản phẩm vào chuyên mục yêu thích của mình</div>
+            </div>
+            {{/if}}
+            {{#if this.isOwnProduct}}
+            <div class="row">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-8 d-flex justify-content-center text-danger">Bạn không thể tự đấu giá sản phẩm của chính bản thân mình</div>
+            </div>
+            {{else if this.product.listDeny}}
+            <div class="row">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-8 d-flex justify-content-center text-danger">Bạn bị người bán từ chối việc ra giá</div>
+            </div>
+            {{else if this.validValidate}}
+            {{else}}
+            <div class="row">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-8 d-flex justify-content-center text-danger">Điểm đánh giá của bạn quá thấp không thể đấu giá sản phẩm</div>
+            </div>
+            {{/if}}
+            <div class="row container-other">
+                {{#if isBidder}}
+                <div class="col-sm-4" style="max-height: 840px; overflow-y: scroll">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col" width="5%" class="normal-fontsize font-weight-bold">#</th>
+                                <th scope="col" width="20%" class="normal-fontsize font-weight-bold">Thời điểm</th>
+                                <th scope="col" width="25%" class="normal-fontsize font-weight-bold">Giá</th>
+                                {{#if is_seller}}
+                                <th scope="col" width="20%" class="normal-fontsize font-weight-bold">Người mua(Đánh giá)</th>
+                              <th></th>
+                            {{else if is_not_seller}}
+                                <th scope="col" width="20%" class="normal-fontsize font-weight-bold">Người mua</th>
+                               {{else}}
+                                {{/if}}
+                                
+                          
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each this.product.list_bidder_object}}
+                            <tr>
+                                <th scope="row" class="normal-fontsize">{{number}}</button></th>
+                                <td class="normal-fontsize">{{date}}</td>
+                                   <td class="normal-fontsize">{{format price}}</td>
+                                 {{#if is_seller}}
+                                <td class="normal-fontsize"><a href="/category/list_evaluate/bidder/{{BidderID}}">{{name}}({{point}}%)</a></td>
+                                 <td>  <button class="button-trash" 
+                                             onclick="deleteBidder({{number}},{{curProductID}})"
+                           ><i class="fa fa-trash" aria-hidden="true"></i></button>
+                            </td>
+                                 {{else if is_not_seller}}
+                                 <td class="normal-fontsize">{{name}}</td>
+                                {{else}}
+                                  {{/if}}
+                               
+                             
+                              
+                            </tr>
+                            {{/each}}
+                            {{!-- <tr>
+                                <th scope="row" class="normal-fontsize">2</th>
+                                <td class="normal-fontsize">13/11/2019 20:55</td>
+                                <td class="normal-fontsize">***Khoa</td>
+                                <td class="normal-fontsize">700.000.000</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="normal-fontsize">3</th>
+                                <td class="normal-fontsize">13/11/2019 20:55</td>
+                                <td class="normal-fontsize">***Khoa</td>
+                                <td class="normal-fontsize">700.000.000</td>
+                            </tr> --}}
+                        </tbody>
+                    </table>
+                </div>
+                {{/if}}
+
+                <div class="col-sm-8">
+                    {{#each this.categoryProduct}}
+                    <div class="container-each-other-product">
+                        <div class="products-entry item-wrap clearfix ">
+                            <div class="item-detail">
+                                <div class="item-img products-thumb ">
+                                    <div class="bidder-name">{{bidder}}</div>
+                                    <div class="count-bid">{{count_bid}}</div>
+                                    <a href="#">
+                                        <div class="product-thumb-hover d-flex justify-content-center"><img width="193 "
+                                                height="193 " src="/picture/product/{{id}}/main1.jpg"
+                                                class="attachment-shop_catalog size-shop_catalog wp-post-image lazyloaded ">
+                                        </div>
+                                    </a>
+                                    <div class="berocket_better_labels berocket_better_labels_image ">
+                                        <div
+                                            class="berocket_better_labels_position berocket_better_labels_position_right ">
+                                            <div class="berocket_better_labels_line berocket_better_labels_line_1 ">
+                                                <div
+                                                    class="berocket_better_labels_inline berocket_better_labels_inline_1 text-center">
+                                                    <span class="content-date ">
+                                                        <i
+                                                            class="template-i-after  font-date"></i><b>{{date_time}}</b></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="item-content products-content ">
+                                    <div class="reviews-content ">
+
+                                        <div class="star "></div>
+
+                                    </div>
+                                    <h4><a href="#">{{name}}</a></h4>
+                                
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div>Khởi điểm:</div>
+                                            <div>Cao nhất:</div>
+                                            <div>Mua ngay:</div>
+                                            <div>Bội số:</div>
+
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div>{{format start_price}}</div>
+                                            <div>{{format top_price}}</div>
+                                            <div>{{format buynow_price}}</div>
+                                            <div>{{format min_increase}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{/each}}
+                    {{!-- <div class="container-each-other-product">
+                        <div class="products-entry item-wrap clearfix ">
+                            <div class="item-detail">
+                                <div class="item-img products-thumb ">
+                                    <div class="bidder-name">****Nghĩa</div>
+                                    <div class="count-bid">7 lượt</div>
+                                    <a href="#">
+                                        <div class="product-thumb-hover d-flex justify-content-center"><img width="193 "
+                                                height="193 " src="/picture/MSI/msi_8.jpg "
+                                                class="attachment-shop_catalog size-shop_catalog wp-post-image lazyloaded ">
+                                        </div>
+                                    </a>
+                                    <div class="berocket_better_labels berocket_better_labels_image ">
+                                        <div
+                                            class="berocket_better_labels_position berocket_better_labels_position_right ">
+                                            <div class="berocket_better_labels_line berocket_better_labels_line_1 ">
+                                                <div
+                                                    class="berocket_better_labels_inline berocket_better_labels_inline_1 text-center">
+                                                    <span class="content-date ">
+                                                        <i
+                                                            class="template-i-after  font-date"></i><b>26/12/2019</b></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="item-content products-content ">
+                                    <div class="reviews-content ">
+
+                                        <div class="star "></div>
+
+                                    </div>
+                                    <h4><a href="#">Laptop Gaming MSI GF63 Thin 9SC 070VN Geforce GTX1650 Intel Core
+                                            i7
+                                            9750H
+                                            8GB 256GB 15.6” IPS Backlight Keyboard Win 10</a></h4>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div>Khởi điểm:</div>
+                                            <div>Cao nhất:</div>
+                                            <div>Mua ngay:</div>
+                                            <div>Bước nhảy:</div>
+
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div>15.000.000₫</div>
+                                            <div>17.990.000₫</div>
+                                            <div>24.490.000₫</div>
+                                            <div>500.000₫</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container-each-other-product">
+                        <div class="products-entry item-wrap clearfix ">
+                            <div class="item-detail">
+                                <div class="item-img products-thumb ">
+                                    <div class="bidder-name">****Nghĩa</div>
+                                    <div class="count-bid">7 lượt</div>
+                                    <a href="#">
+                                        <div class="product-thumb-hover d-flex justify-content-center"><img width="193 "
+                                                height="193 " src="/picture/MSI/msi_8.jpg "
+                                                class="attachment-shop_catalog size-shop_catalog wp-post-image lazyloaded ">
+                                        </div>
+                                    </a>
+                                    <div class="berocket_better_labels berocket_better_labels_image ">
+                                        <div
+                                            class="berocket_better_labels_position berocket_better_labels_position_right ">
+                                            <div class="berocket_better_labels_line berocket_better_labels_line_1 ">
+                                                <div
+                                                    class="berocket_better_labels_inline berocket_better_labels_inline_1 text-center">
+                                                    <span class="content-date ">
+                                                        <i
+                                                            class="template-i-after  font-date"></i><b>26/12/2019</b></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="item-content products-content ">
+                                    <div class="reviews-content ">
+
+                                        <div class="star "></div>
+
+                                    </div>
+                                    <h4><a href="#">Laptop Gaming MSI GF63 Thin 9SC 070VN Geforce GTX1650 Intel Core
+                                            i7
+                                            9750H
+                                            8GB 256GB 15.6” IPS Backlight Keyboard Win 10</a></h4>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div>Khởi điểm:</div>
+                                            <div>Cao nhất:</div>
+                                            <div>Mua ngay:</div>
+                                            <div>Bước nhảy:</div>
+
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div>15.000.000₫</div>
+                                            <div>17.990.000₫</div>
+                                            <div>24.490.000₫</div>
+                                            <div>500.000₫</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container-each-other-product">
+                        <div class="products-entry item-wrap clearfix ">
+                            <div class="item-detail">
+                                <div class="item-img products-thumb ">
+                                    <div class="bidder-name">****Nghĩa</div>
+                                    <div class="count-bid">7 lượt</div>
+                                    <a href="#">
+                                        <div class="product-thumb-hover d-flex justify-content-center"><img width="193 "
+                                                height="193 " src="/picture/MSI/msi_8.jpg "
+                                                class="attachment-shop_catalog size-shop_catalog wp-post-image lazyloaded ">
+                                        </div>
+                                    </a>
+                                    <div class="berocket_better_labels berocket_better_labels_image ">
+                                        <div
+                                            class="berocket_better_labels_position berocket_better_labels_position_right ">
+                                            <div class="berocket_better_labels_line berocket_better_labels_line_1 ">
+                                                <div
+                                                    class="berocket_better_labels_inline berocket_better_labels_inline_1 text-center">
+                                                    <span class="content-date ">
+                                                        <i
+                                                            class="template-i-after  font-date"></i><b>26/12/2019</b></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="item-content products-content ">
+                                    <div class="reviews-content ">
+
+                                        <div class="star "></div>
+
+                                    </div>
+                                    <h4><a href="#">Laptop Gaming MSI GF63 Thin 9SC 070VN Geforce GTX1650 Intel Core
+                                            i7
+                                            9750H
+                                            8GB 256GB 15.6” IPS Backlight Keyboard Win 10</a></h4>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div>Khởi điểm:</div>
+                                            <div>Cao nhất:</div>
+                                            <div>Mua ngay:</div>
+                                            <div>Bước nhảy:</div>
+
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div>15.000.000₫</div>
+                                            <div>17.990.000₫</div>
+                                            <div>24.490.000₫</div>
+                                            <div>500.000₫</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container-each-other-product">
+                        <div class="products-entry item-wrap clearfix ">
+                            <div class="item-detail">
+                                <div class="item-img products-thumb ">
+                                    <div class="bidder-name">****Nghĩa</div>
+                                    <div class="count-bid">7 lượt</div>
+                                    <a href="#">
+                                        <div class="product-thumb-hover d-flex justify-content-center"><img width="193 "
+                                                height="193 " src="/picture/MSI/msi_8.jpg "
+                                                class="attachment-shop_catalog size-shop_catalog wp-post-image lazyloaded ">
+                                        </div>
+                                    </a>
+                                    <div class="berocket_better_labels berocket_better_labels_image ">
+                                        <div
+                                            class="berocket_better_labels_position berocket_better_labels_position_right ">
+                                            <div class="berocket_better_labels_line berocket_better_labels_line_1 ">
+                                                <div
+                                                    class="berocket_better_labels_inline berocket_better_labels_inline_1 text-center">
+                                                    <span class="content-date ">
+                                                        <i
+                                                            class="template-i-after  font-date"></i><b>26/12/2019</b></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="item-content products-content ">
+                                    <div class="reviews-content ">
+
+                                        <div class="star "></div>
+
+                                    </div>
+                                    <h4><a href="#">Laptop Gaming MSI GF63 Thin 9SC 070VN Geforce GTX1650 Intel Core
+                                            i7
+                                            9750H
+                                            8GB 256GB 15.6” IPS Backlight Keyboard Win 10</a></h4>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div>Khởi điểm:</div>
+                                            <div>Cao nhất:</div>
+                                            <div>Mua ngay:</div>
+                                            <div>Bước nhảy:</div>
+
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div>15.000.000₫</div>
+                                            <div>17.990.000₫</div>
+                                            <div>24.490.000₫</div>
+                                            <div>500.000₫</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> --}}
+                </div>
+            </div>
+        </div>
+    </figure>
+
+    <!-- Button trigger modal -->
+
+    <hr class="footer-landing " />
+    <div class="modal" id="modal_confirm_price" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="font-size: 25px;">Đấu giá sản phẩm</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body normal-fontsize">
+                    <p style="color: black; font-weight:bold">Đấu giá sản phẩm {{this.product.name}} với mức giá:</p>
+                    <input class="text-price" type="text" value="{{this.product.recommend_price}}"
+                        id="text-price" />&nbsp;₫
+                    <p style="color: black;">Đây là đấu giá tự động. Vui lòng nhập mức giá tối đa bạn có thể ra giá.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary normal-fontsize" onclick="bid({{this.product.id}})">Tôi
+                        chắc chắn</button>
+                    <button type="button" class="btn btn-secondary normal-fontsize" data-dismiss="modal">Khoan
+                        đã</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

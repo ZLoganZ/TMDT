@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href="/assets/img/favicon.ico">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>Quản lý</title>
+
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+    <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.8/js/fileinput.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.8/themes/fa/theme.min.js"></script>
+    <script>
+        $('#fuMain').fileinput({
+            theme: 'fa',
+            dropZoneEnabled: false,
+            allowedFileExtensions: ['png', 'jpg', 'gif'],
+        });
+    </script>
+
+    <!-- Bootstrap core CSS     -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.8/css/fileinput.min.css">
+
+    <!--  Light Bootstrap Table core CSS    -->
+    <link href="/static/css/light-bootstrap-dashboard.css?v=1.4.0" rel="stylesheet" />
+
+    <!--     Fonts and icons     -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
+    <!-- Theme included stylesheets -->
+    <link href="https://cdn.quilljs.com/1.1.9/quill.snow.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="sidebar" data-color="red" data-image="/assets/img/sidebar-5.jpg">
+            <div class="sidebar-wrapper">
+                <div class="logo">
+                    <a href="#" class="simple-text">
+                        ONLINE AUTION
+                    </a>
+                </div>
+
+                <ul class="nav">
+                    {{#if isAuthenticated}}
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="/account/profile">
+                            <i class="pe-7s-graph"></i>
+                            <p class="mb-0">Thông tin cá nhân</p>
+                        </a>
+                    </li>
+                    {{/if}}
+                    {{#if isSeller}}
+                    <li class="pl-3 my-li-dashboard my-active">
+                        <a href="/seller/product/">
+                            <i class="pe-7s-note2"></i>
+                            <p class="mb-0">Các sản phẩm đang bán</p>
+                        </a>
+                    </li>
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="/seller/product/selled">
+                            <i class="pe-7s-note2"></i>
+                            <p class="mb-0">Các sản phẩm đã bán</p>
+                        </a>
+                    </li>
+                    {{/if}}
+                    {{#if isAdmin}}
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="/admin/category">
+                            <i class="pe-7s-news-paper"></i>
+                            <p class="mb-0">Quản lý danh mục</p>
+                        </a>
+                    </li>
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="/admin/product">
+                            <i class="pe-7s-science"></i>
+                            <p class="mb-0">Quản lý sản phẩm</p>
+                        </a>
+                    </li>
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="/admin/user">
+                            <i class="pe-7s-map-marker"></i>
+                            <p class="mb-0">Quản lý người dùng</p>
+                        </a>
+                    </li>
+                    {{/if}}
+                    {{#if isBidder}}
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="/bidder/product/list_bidding">
+                            <i class="pe-7s-news-paper"></i>
+                            <p class="mb-0">Các sản phẩm đang đấu giá</p>
+                        </a>
+                    </li>
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="/bidder/product/winner">
+                            <i class="pe-7s-science"></i>
+                            <p class="mb-0">Các sản phẩm đã thắng</p>
+                        </a>
+                    </li>
+                    {{/if}}
+                    {{#if isAuthenticated}}
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="javascript: logOut()">
+                            <i class="pe-7s-graph"></i>
+                            <p class="mb-0">Thoát</p>
+                        </a>
+                    </li>
+                    {{/if}}
+                </ul>
+            </div>
+        </div>
+
+        <div class="main-panel">
+            <nav class="navbar navbar-default navbar-fixed">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="#">Đăng sản phẩm</a>
+                    </div>
+                </div>
+            </nav>
+
+            <form method="POST" id="formPostProduct">
+                <div class="row mt-5">
+                    <div class="col-sm-3 text-right">
+                        <label>Tên sản phẩm:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="text" class="my-product-input" name="name" value="{{this.product.name}}"
+                            disabled />
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-sm-3 text-right">
+                        <label>Chuyên mục</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <select id="selectbox" class="my-product-select" data-selected="" name="cat_id" disabled>
+                            <option value="" selected="selected" disabled="disabled">Vui lòng chọn 1 chuyên mục</option>
+                            {{#each this.category}}
+                            <option value="{{id}}" {{#if checked}}selected{{/if}}>{{name}}</option>
+                            {{/each}}
+                            {{!-- <option value="1">Laptop</option>
+                            <option value="2">Laptop</option>
+                            <option value="3">Laptop</option>
+                            <option value="4">Laptop</option>
+                            <option value="5">Laptop</option> --}}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-sm-3 text-right">
+                        <label>Tin tưởng</label>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="trusted"
+                                    {{#if this.product.trusted}}checked="checked" {{/if}} value="1" disabled>Chỉ cho
+                                những người có độ tin cậy cao đấu giá
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="trusted" value="2"
+                                    {{#if this.product.trusted}}{{else}}checked="checked" {{/if}} disabled>Ai đấu giá
+                                cũng
+                                được
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-sm-3 text-right">
+                        <label>Giá khởi điểm</label>
+                    </div>
+                    <div class="col-sm-2">
+                        <input type="text" class="my-product-input text-right" name="start_price"
+                            value="{{this.product.start_price}}" disabled />
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-sm-3 text-right">
+                        <label>Giá mua ngay</label>
+                    </div>
+                    <div class="col-sm-2">
+                        <input type="text" class="my-product-input text-right" name="buynow_price"
+                            value="{{this.product.buynow_price}}" disabled />
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-sm-3 text-right">
+                        <label>Bước nhảy:</label>
+                    </div>
+                    <div class="col-sm-2">
+                        <input type="text" class="my-product-input text-right" name="min_increase"
+                            value="{{this.product.min_increase}}" disabled />
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-sm-3 text-right">
+                        <label>Ngày kết thúc</label>
+                    </div>
+                    <div class="col-sm-2">
+                        <input size="16" type="text" id='datetimepicker1' class="my-product-input" name="end_date"
+                            value="{{this.product.end_date_format}}" disabled>
+                    </div>
+                </div>
+
+                <div class="row mt-2 ">
+                    <div class="col-sm-3 text-right">
+                        <label>Mô tả</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <div id="editor" class="my-text-area-product"></div>
+                    </div>
+                </div>
+
+                <textarea style="display:none;" name="description" id="description"></textarea>
+
+                <div class="row mt-2">
+                    <div class="col-sm-9 d-flex justify-content-end">
+                        <button type="submit" class="btn btn-success mr-3"><i class="fa fa-save"></i>&nbsp;Cập
+                            nhật</button>
+                        <button class="btn btn-danger" onclick="javascript: window.history.back();"><i
+                                class="fa fa fa-arrow-left"></i>&nbsp;Quay lại</button>
+                    </div>
+                </div>
+
+            </form>
+
+
+            <footer class="footer mt-2">
+                <div class="container-fluid">
+                    <nav class="pull-left">
+                        <ul>
+                            <li>
+                                <a href="#">
+                                    Trang chủ
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Công ty
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Danh mục đầu tư
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Blog
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <p class="copyright pull-right">
+                        <a href="#">ONLINE AUTION</a>
+                    </p>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var toolbarOptions = [
+            [{ 'font': [] }, { 'size': [] }],
+            ['bold', 'italic', 'underline', 'strike'],
+            [{ 'color': [] }, { 'background': [] }],
+            [{ 'script': 'super' }, { 'script': 'sub' }],
+            [{ 'header': '1' }, { 'header': '2' }, 'blockquote', 'code-block'],
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
+            ['direction', { 'align': [] }],
+            ['link', 'image', 'video', 'formula'],
+            ['clean']
+        ];
+
+        let quill = new Quill('#editor', {
+            modules: {
+                toolbar: toolbarOptions
+            },
+            theme: 'snow'
+        });
+
+        $(document).ready(function () {
+            $('#datetimepicker1').datetimepicker({});
+            let product = JSON.parse('{{{getContent this.product}}}');
+            quill.clipboard.dangerouslyPasteHTML(0, product.description);
+        });
+
+        $('#formPostProduct').on("submit", function () {
+            $('#description').text(quill.container.firstChild.innerHTML);
+        });
+
+        function logOut() {
+            $.ajax({
+                async: false,
+                type: "POST",
+                url: '/account/logout',
+            });
+            location.reload();
+        }
+    </script>
+
+</body>
+
+</html>

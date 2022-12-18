@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Online Auction</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/home.css">
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/css/category.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.10/css/mdb.css">
+    {{{_sections.css}}}
+</head>
+
+<body>
+    <div class="body-wrapper">
+        <div class="my-header-list">
+            <div class="my-container-list">
+                <ul id="main_menu">
+                    {{#each lcCategories}}
+                    <li>
+                        <a href="javascript:;" class="my-button-list d-flex justify-content-center"> <i
+                                class="{{icon}}"></i>&nbsp;&nbsp;{{name}}</a>
+                        {{#if haveSub}}
+                        <ul class="sub_menu">
+                            {{#each subcategory}}
+                            <li class="d-flex justify-content-between align-items-center">
+                                <a href="/category/{{this.id}}/products">{{this.name}}</a>
+                                {{#if count}}
+                                <span
+                                    class="badge badge-danger d-flex align-items-center my-size-small justify-content-center">{{count}}</span>
+                                {{/if}}
+                                {{#if this.haveSub}}
+                                <ul class="sub_menu">
+                                    {{#each this.subcategory}}
+                                    <li class="d-flex justify-content-between align-items-center">
+                                        <a href="/category/{{this.id}}/products"
+                                            class="child-category">{{this.name}}</a>
+                                        {{#if count}}
+                                        <span
+                                            class="badge badge-danger d-flex align-items-center my-size-small justify-content-center">{{count}}</span>
+                                        {{/if}}
+                                    </li>
+                                    {{/each}}
+                                </ul>
+                                {{/if}}
+                            </li>
+                            {{/each}}
+                        </ul>
+                        {{/if}}
+                    </li>
+
+                    {{/each}}
+                    <li><a href="/bidder/product/fav" class="my-button-list d-flex justify-content-center">&#11088;&nbsp;YÊU THÍCH</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="body-wrapper-inner margin-from-header">
+            <header id="header" class="header header-style3">
+                <div class="header-mid clearfix sticky-mid">
+                    <div class="container">
+                        <div class="rows">
+                            <!-- Logo -->
+                            <div class="etrostore-logo pull-left my-container-logo">
+                                <a href="/">
+                                    <img class=" lazyloaded" src="/picture/logo.png" alt="Online Auction logo">
+                                </a>
+                            </div>
+                            <div class="mid-header pull-right">
+                                <div class="widget sw_ajax_woocommerce_search-6 sw_ajax_woocommerce_search pull-left">
+                                    <div class="widget-inner">
+                                        <a class="search-icon fa fa-search"></a>
+                                        <div class="revo_top swsearch-wrapper clearfix">
+                                            <div class="top-form top-search non-category">
+                                                <div class="topsearch-entry">
+                                                    <form onsubmit="false" method="GET" action="/search">
+                                                        <div id="sw_woo_search_1" class="search search-group">
+                                                            <div class="content-search d-inline-block">
+                                                                <select class="my-select-search" name="style" id="style">
+                                                                    <option value="0" selected>Tên sản phẩm</option>
+                                                                    <option value="1">Tên chuyên mục</option>
+                                                                    <option value="2">Tên người đăng</option>
+                                                                </select>
+                                                                <input class="autosearch-input" type="text" value=""
+                                                                    size="50" autocomplete="off"
+                                                                    placeholder="Tìm kiếm..." name="search_text" id="search_text">
+                                                                <button type="submit"
+                                                                    class="fa fa-search button-search-pro form-button"><i
+                                                                        class="fas fa-search"></i>&nbsp;&nbsp;Tìm
+                                                                    Kiếm</button>
+                                                            </div>
+                                                            <div class="widget sw_top-4 sw_top d-inline-block">
+                                                                <div class="widget-inner">
+                                                                    <div>
+                                                                        {{#if isAuthenticated}}
+                                                                        <ul class="">
+                                                                            <li class="nav-item dropdown p-0">
+                                                                                <a class="nav-link dropdown-toggle"
+                                                                                    href="#" id="navbarDropdown"
+                                                                                    role="button" data-toggle="dropdown"
+                                                                                    aria-haspopup="true"
+                                                                                    aria-expanded="false">
+                                                                                    Hi, <b>{{authUser.name}}!</b>
+                                                                                </a>
+                                                                                <div class="dropdown-menu dropdown-menu-right my-dropdown-item"
+                                                                                    aria-labelledby="navbarDropdown">
+                                                                                    <a class="dropdown-item"
+                                                                                        href="/account/profile">
+                                                                                        <i class="fa fa-user"
+                                                                                            aria-hidden="true"></i>
+                                                                                        Thông tin các nhân
+                                                                                    </a>
+                                                                                    <a class="dropdown-item"
+                                                                                        href="/account/profile">
+                                                                                        <i class="fas fa-tasks"></i>
+                                                                                        Quản lý
+                                                                                    </a>
+                                                                                    <a class="dropdown-item"
+                                                                                        href="javascript: logOut()">
+                                                                                        <i
+                                                                                            class="fas fa-sign-out-alt"></i>
+                                                                                        Logout
+                                                                                    </a>
+                                                                                </div>
+                                                                            </li>
+                                                                        </ul>
+                                                                        {{else}}
+                                                                        <ul>
+                                                                            <li>
+                                                                                <a href="/account/login"><span><b>Đăng
+                                                                                            nhập/<b>&nbsp;Đăng
+                                                                                                ký</b></b></span></a>
+                                                                            </li>
+                                                                        </ul>
+                                                                        {{/if}}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+        </div>
+    </div>
+    {{{body}}}
+    <div class="container">
+        <div id="service-Xgear">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 d-flex justify-content-end">
+                        <div>
+                            <img class=" lazyloaded animated slideInLeft infinite slower" src="/picture/logo.png"
+                                data-src="/picture/logo.png" alt="Online Auction" style=" margin-left: -20px; ">
+                        </div>
+                    </div>
+                    <div class="col-md-3 d-flex align-items-center">
+                        <div class="d-flex">
+                            <div class="float-left"><img class=" ls-is-cached lazyloaded" width="64"
+                                    src="/picture/icon/support-64x64.png"
+                                    alt=" Hỗ trợ và tư vấn 24/7" height="auto"></div>
+                            <div class="float-left label-image-footer">HỖ TRỢ 24/7</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 d-flex align-items-center">
+                        <div class="d-flex">
+                            <div><img class=" lazyloaded" width="64"
+                                    src="/picture/icon/delivery-truck-64x64.png"
+                                    alt="Giao hàng siêu tốc, và miễn phí toàn quốc" height="auto"></div>
+                            <div class="label-image-footer">MIỄN PHÍ VẬN CHUYỂN</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section id="sec-thong-tin-Xgear">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="container-subtitle">Đấu trường đọ tỉ giá của máy tính PC, Laptop Gaming MSI &amp; Asus
+                        chính hãng. Mang đến cho khách hàng những sản phẩm chất lượng với giá tốt nhất.</div>
+                </div>
+            </div>
+
+            <div class="row " style=" margin-bottom: 30px; ">
+                <div class="col-md-6">
+                    <div id="chinhanhHaNoi" style=" margin-top: 10px; ">
+                        <div style=" font-size: 18px;font-weight: bold;padding-bottom: 10px; ">HÀ NỘI</div>
+                        <div style=" font-size: 16px; line-height: 1.5;"><b>Địa chỉ</b>: 10A1 Ngõ 49, Linh Lang, Q. Ba
+                            Đình</div>
+                        <div style=" font-size: 16px; line-height: 1.5;">Điện thoại: <b>(028) 7108 1881</b> –
+                            <b>Hotline: 097 232 1881</b></div>
+                        <div style=" font-size: 16px; line-height: 1.5;">Phản ánh chất lượng dịch vụ: 093 183 4446</div>
+                        <div style=" font-size: 16px; line-height: 1.5;"><b>Thời gian làm việc</b>: 9AM – 6h30PM, <b>Chủ
+                                nhật:</b> 10AM – 4PM</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div id="chinhanhHCM" style=" margin-top: 10px; ">
+                        <div style=" font-size: 18px;font-weight: bold;padding-bottom: 10px; ">TP. HỒ CHÍ MINH</div>
+                        <div style=" font-size: 16px; line-height: 1.5;"><b>Địa chỉ</b>: 73 Tự Cường, Phường 4, Q.Tân
+                            Bình</div>
+                        <div style=" font-size: 16px; line-height: 1.5;">Điện thoại: <b>(028) 7108 1881 – Hotline: 093
+                                373 1881</b></div>
+                        <div style=" font-size: 16px; line-height: 1.5;">Phản ánh chất lượng dịch vụ: 093 183 4446</div>
+                        <div style=" font-size: 16px; line-height: 1.5;"><b>Thời gian làm việc</b>: 9AM – 8PM, <b>Chủ
+                                nhật:</b> 10AM – 7PM</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style=" border-top: 1px solid #adadad; ">
+                <div class="col-md-4" style="margin-top: 40px;margin-bottom: 10px;">
+                    <div class="titleFootX">THÔNG TIN VỀ ONLINE Auction</div>
+                    <div class="khungList">
+                        <ul>
+                            <li><a href="#">Trang chủ</a></li>
+                            <li><a href="#" target="_blank" rel="noopener">Các đối tác</a></li>
+                            <li>Tuyển dụng</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4" style="margin-top: 40px;margin-bottom: 10px;">
+                    <div class="titleFootX">CHÍNH SÁCH</div>
+                    <div class="khungList">
+                        <ul>
+                            <li><a href="#" target="_blank" rel="noopener">Chính sách giao hàng</a></li>
+                            <li><a href="#" target="_blank" rel="noopener">Phương thức giao dịch &amp; thanh toán</a>
+                            </li>
+                            <li><a href="#" target="_blank" rel="noopener">Điều khoản mua bán</a></li>
+                            <li><a href="#" target="_blank" rel="noopener">Qui định bảo hành</a></li>
+                            <li><a href="#" target="_blank" rel="noopener">Chính sách đổi trả hàng hóa</a></li>
+                            <li><a href="#" target="_blank" rel="noopener">Chính sách bảo mật thông tin</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+                <div class="col-md-4" style="margin-top: 40px;margin-bottom: 10px;">
+                    <div class="titleFootX">CỘNG ĐỒNG</div>
+                    <div class="khungList">
+                        <ul>
+                            <li><a href="#" target="_blank">Facebook page</a></li>
+                            <li><a href="#" target="_blank">Youtube channel</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="jeowayContactAllInOne_layer my-quick-toolbar">
+
+            <div class="jeowayContactAllInOne_container">
+
+
+                <div
+                    class="jeoway_btn_call my-toolbar" data-tooltip="Gọi ngay (028) 7108 1881 "
+                    data-tooltip-location="left">
+                    <a href="#">
+                        <img src="/picture/icon/Capture1.PNG" width="48" height="48">
+                    </a>
+                </div>
+
+                <div onclick="_paq.push(['trackEvent', 'Contact_All_In_All', 'ClickBtnChinhSachShip']);"
+                    class="jeoway_btn_ship my-toolbar" data-tooltip="Chính sách giao hàng" data-tooltip-location="left">
+                    <a href="#">
+                        <img src="/picture/icon/Capture.PNG" width="48" height="48">
+                    </a>
+                </div>
+
+
+                <div 
+                    id="myBtn_Ship my-toolbar" class="jeoway_btn_map" data-tooltip="Dịch vụ tặng kèm"
+                    data-tooltip-location="left">
+                    <img src="/picture/icon/Capture2.PNG" width="48" height="48">
+                </div>
+
+                <div 
+                    class="jeoway_btn_DiaChi my-toolbar" data-tooltip="Địa chỉ của Online Auction"
+                    data-tooltip-location="left">
+                    <a href="#">
+                        <img src="/picture/icon/Capture3.PNG" width="48" height="48">
+                    </a>
+                </div>
+
+                <div 
+                    class="jeoway_btn_fb_chat my-toolbar" data-tooltip="Chat với Online Auction để được tư vấn"
+                    data-tooltip-location="left">
+                    <a href="#" target="_blank">
+                        <img src="/picture/icon/Capture4.PNG" width="48" height="48">
+                    </a>
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/static/javascript/category.js"></script>
+    <script>
+        function logOut() {
+            $.ajax({
+                async: false,
+                type: "POST",
+                url: '/account/logout',
+            });
+            location.reload();
+        }
+    </script>
+    {{{_sections.js}}}
+</body>

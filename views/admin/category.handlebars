@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href="/assets/img/favicon.ico">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>Quản lý</title>
+
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+    <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
+
+    <!-- Bootstrap core CSS     -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
+
+    <!--  Light Bootstrap Table core CSS    -->
+    <link href="/static/css/light-bootstrap-dashboard.css?v=1.4.0" rel="stylesheet" />
+
+    <!--     Fonts and icons     -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
+    <!-- Theme included stylesheets -->
+    <link href="https://cdn.quilljs.com/1.1.9/quill.snow.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="sidebar" data-color="red" data-image="/assets/img/sidebar-5.jpg">
+            <div class="sidebar-wrapper">
+                <div class="logo">
+                    <a href="#" class="simple-text">
+                        ONLINE AUTION
+                    </a>
+                </div>
+
+                <ul class="nav">
+                    {{#if isAuthenticated}}
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="/account/profile">
+                            <i class="pe-7s-graph"></i>
+                            <p class="mb-0">Thông tin cá nhân</p>
+                        </a>
+                    </li>
+                    {{/if}}
+                    {{#if isSeller}}
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="/seller/product/">
+                            <i class="pe-7s-note2"></i>
+                            <p class="mb-0">Các sản phẩm đang bán</p>
+                        </a>
+                    </li>
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="/seller/product/selled">
+                            <i class="pe-7s-note2"></i>
+                            <p class="mb-0">Các sản phẩm đã bán</p>
+                        </a>
+                    </li>
+                    {{/if}}
+                    {{#if isAdmin}}
+                    <li class="pl-3 my-li-dashboard my-active">
+                        <a href="/admin/category">
+                            <i class="pe-7s-news-paper"></i>
+                            <p class="mb-0">Quản lý danh mục</p>
+                        </a>
+                    </li>
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="/admin/product">
+                            <i class="pe-7s-science"></i>
+                            <p class="mb-0">Quản lý sản phẩm</p>
+                        </a>
+                    </li>
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="/admin/user">
+                            <i class="pe-7s-map-marker"></i>
+                            <p class="mb-0">Quản lý người dùng</p>
+                        </a>
+                    </li>
+                    {{/if}}
+                    {{#if isBidder}}
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="/bidder/product/list_bidding">
+                            <i class="pe-7s-news-paper"></i>
+                            <p class="mb-0">Các sản phẩm đang đấu giá</p>
+                        </a>
+                    </li>
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="/bidder/product/winner">
+                            <i class="pe-7s-science"></i>
+                            <p class="mb-0">Các sản phẩm đã thắng</p>
+                        </a>
+                    </li>
+                    {{/if}}
+
+                    {{#if isAuthenticated}}
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="javascript: logOut()">
+                            <i class="pe-7s-graph"></i>
+                            <p class="mb-0">Thoát</p>
+                        </a>
+                    </li>
+                    {{/if}}
+                </ul>
+            </div>
+        </div>
+
+        <div class="main-panel">
+            <nav class="navbar navbar-default navbar-fixed">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="#">Quản lý chuyên mục</a>
+                    </div>
+                </div>
+            </nav>
+            <h4 class="ml-5">Chuyên mục gốc:</h4>
+            <div class="row">
+                <div class="col-sm-1">
+                </div>
+                <div class="col-sm-6">
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col" width="10%" style="font-weight:bold;">STT</th>
+                                <th scope="col" width="70%" style="font-weight:bold;">Tên Chuyên Mục</th>
+                                <th scope="col" width="20%" style="font-weight:bold;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each this.categories}}
+                            <tr>
+                                <th scope="row">{{number}}</th>
+                                <td>{{name}}</td>
+                                <td>
+                                    <button class="btn btn-primary my-category-button"
+                                        onclick='seeDetail({{id}}, {{level}}, "{{name}}" )'>
+                                        <i class="fa fa-eye"></i></button>
+                                </td>
+                            </tr>
+                            {{/each}}
+                            {{!-- <tr>
+                                <th scope="row">1</th>
+                                <td>Laptop</td>
+                                <td>
+                                    <button class="btn btn-primary my-category-button"><i
+                                            class="fa fa-eye"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>GEAR PC</td>
+                                <td>
+                                    <button class="btn btn-primary my-category-button"><i
+                                            class="fa fa-eye"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td>MÀN HÌNH</td>
+                                <td>
+                                    <button class="btn btn-primary my-category-button"><i
+                                            class="fa fa-eye"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">4</th>
+                                <td>LINH KIỆN</td>
+                                <td>
+                                    <button class="btn btn-primary my-category-button"><i
+                                            class="fa fa-eye"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">5</th>
+                                <td>GAMING CHAIR</td>
+                                <td>
+                                    <button class="btn btn-primary my-category-button"><i
+                                            class="fa fa-eye"></i></button>
+                                </td>
+                            </tr> --}}
+                        </tbody>
+                    </table>
+                    <hr>
+                </div>
+            </div>
+
+            <h4 class="ml-5" id="title_sub_category" style="visibility: hidden;">LAPTOP:</h4>
+            <div class="row" id="conteiner_sub_category" style="visibility: hidden;">
+                <div class="col-sm-1">
+                </div>
+                <div class="col-sm-6">
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col" width="10%" style="font-weight:bold;">STT</th>
+                                <th scope="col" width="60%" style="font-weight:bold;">Tên Chuyên Mục</th>
+                                <th scope="col" width="30%" style="font-weight:bold;"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-child-category">
+                            {{!-- <tr>
+                                <th scope="row">1</th>
+                                <td>MSI</td>
+                                <td>
+                                    <button class="btn btn-primary my-category-button" data-toggle="modal"
+                                        data-target="#exampleModalCenter"><i class="fa fa-eye"></i></button>
+                                    <button class="btn btn-success my-category-button"><i
+                                            class="fa fa-edit"></i></button>
+                                    <button class="btn btn-danger my-category-button"><i
+                                            class="fa fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>ASUS</td>
+                                <td>
+                                    <button class="btn btn-primary my-category-button"><i
+                                            class="fa fa-eye"></i></button>
+                                    <button class="btn btn-success my-category-button"><i
+                                            class="fa fa-edit"></i></button>
+                                    <button class="btn btn-danger my-category-button"><i
+                                            class="fa fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td>LENOVO</td>
+                                <td>
+                                    <button class="btn btn-primary my-category-button"><i
+                                            class="fa fa-eye"></i></button>
+                                    <button class="btn btn-success my-category-button"><i
+                                            class="fa fa-edit"></i></button>
+                                    <button class="btn btn-danger my-category-button"><i
+                                            class="fa fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">4</th>
+                                <td>DELL</td>
+                                <td>
+                                    <button class="btn btn-primary my-category-button"><i
+                                            class="fa fa-eye"></i></button>
+                                    <button class="btn btn-success my-category-button"><i
+                                            class="fa fa-edit"></i></button>
+                                    <button class="btn btn-danger my-category-button"><i
+                                            class="fa fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">5</th>
+                                <td>ACER</td>
+                                <td>
+                                    <button class="btn btn-primary my-category-button"><i
+                                            class="fa fa-eye"></i></button>
+                                    <button class="btn btn-success my-category-button"><i
+                                            class="fa fa-edit"></i></button>
+                                    <button class="btn btn-danger my-category-button"><i
+                                            class="fa fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">6</th>
+                                <td>HP</td>
+                                <td>
+                                    <button class="btn btn-primary my-category-button"><i
+                                            class="fa fa-eye"></i></button>
+                                    <button class="btn btn-success my-category-button"><i
+                                            class="fa fa-edit"></i></button>
+                                    <button class="btn btn-danger my-category-button"><i
+                                            class="fa fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">7</th>
+                                <td>ĐẾ TẢN</td>
+                                <td>
+                                    <button class="btn btn-primary my-category-button"><i
+                                            class="fa fa-eye"></i></button>
+                                    <button class="btn btn-success my-category-button"><i
+                                            class="fa fa-edit"></i></button>
+                                    <button class="btn btn-danger my-category-button"><i
+                                            class="fa fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">8</th>
+                                <td>BALO</td>
+                                <td>
+                                    <button class="btn btn-primary my-category-button"><i
+                                            class="fa fa-eye"></i></button>
+                                    <button class="btn btn-success my-category-button"><i
+                                            class="fa fa-edit"></i></button>
+                                    <button class="btn btn-danger my-category-button"><i
+                                            class="fa fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">9</th>
+                                <td>DỊCH VỤ</td>
+                                <td>
+                                    <button class="btn btn-primary my-category-button"><i
+                                            class="fa fa-eye"></i></button>
+                                    <button class="btn btn-success my-category-button"><i
+                                            class="fa fa-edit"></i></button>
+                                    <button class="btn btn-danger my-category-button"><i
+                                            class="fa fa-trash"></i></button>
+                                </td>
+                            </tr> --}}
+                        </tbody>
+                    </table>
+                    <hr>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog my-category-modal" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="exampleModalLongTitle">MSI</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-sm-1">
+                                </div>
+                                <div class="col-sm-11">
+                                    <table class="table">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th scope="col" width="10%" style="font-weight:bold;">STT</th>
+                                                <th scope="col" width="70%" style="font-weight:bold;">Tên Chuyên Mục
+                                                </th>
+                                                <th scope="col" width="20%" style="font-weight:bold;"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tbody-modal">
+                                            {{!-- <tr>
+                                                <th scope="row">1</th>
+                                                <td>MSI Gaming Series</td>
+                                                <td>
+                                                    <button class="btn btn-success my-category-button"><i
+                                                            class="fa fa-edit"></i></button>
+                                                    <button class="btn btn-danger my-category-button"><i
+                                                            class="fa fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">2</th>
+                                                <td>Alpha Series</td>
+                                                <td>
+                                                    <button class="btn btn-success my-category-button"><i
+                                                            class="fa fa-edit"></i></button>
+                                                    <button class="btn btn-danger my-category-button"><i
+                                                            class="fa fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">3</th>
+                                                <td>GF Series</td>
+                                                <td>
+                                                    <button class="btn btn-success my-category-button"><i
+                                                            class="fa fa-edit"></i></button>
+                                                    <button class="btn btn-danger my-category-button"><i
+                                                            class="fa fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">4</th>
+                                                <td>GL Series</td>
+                                                <td>
+                                                    <button class="btn btn-success my-category-button"><i
+                                                            class="fa fa-edit"></i></button>
+                                                    <button class="btn btn-danger my-category-button"><i
+                                                            class="fa fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">5</th>
+                                                <td>GP Serires</td>
+                                                <td>
+                                                    <button class="btn btn-success my-category-button"><i
+                                                            class="fa fa-edit"></i></button>
+                                                    <button class="btn btn-danger my-category-button"><i
+                                                            class="fa fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">6</th>
+                                                <td>GS Series</td>
+                                                <td>
+                                                    <button class="btn btn-success my-category-button"><i
+                                                            class="fa fa-edit"></i></button>
+                                                    <button class="btn btn-danger my-category-button"><i
+                                                            class="fa fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">7</th>
+                                                <td>GT Series</td>
+                                                <td>
+                                                    <button class="btn btn-success my-category-button"><i
+                                                            class="fa fa-edit"></i></button>
+                                                    <button class="btn btn-danger my-category-button"><i
+                                                            class="fa fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">8</th>
+                                                <td>Content Creation</td>
+                                                <td>
+                                                    <button class="btn btn-success my-category-button"><i
+                                                            class="fa fa-edit"></i></button>
+                                                    <button class="btn btn-danger my-category-button"><i
+                                                            class="fa fa-trash"></i></button>
+                                                </td>
+                                            </tr> --}}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-end">
+                            <button class="btn btn-danger" onclick="closeModal()"><i
+                                    class="fa fa-arrow-left"></i>&nbsp;Quay lại</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-sm-7 d-flex justify-content-end">
+                    <a href="/admin/category/create_category" class="btn btn-primary mr-3"><i
+                            class="fa fa-plus"></i>&nbsp;Thêm
+                        chuyên mục</a>
+                </div>
+            </div>
+
+            <footer class="footer mt-2">
+                <div class="container-fluid">
+                    <nav class="pull-left">
+                        <ul>
+                            <li>
+                                <a href="#">
+                                    Trang chủ
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Công ty
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Danh mục đầu tư
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Blog
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <p class="copyright pull-right">
+                        <a href="#">ONLINE AUTION</a>
+                    </p>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function seeDetail(id, level, name) {
+            $.ajax({
+                url: "/admin/category/get_category/" + id, success: function (result) {
+                    if (result.length) {
+                        if (level == 1) {
+                            $("#title_sub_category").text(name);
+                            $("#title_sub_category").css('visibility', 'visible');
+                            $("#conteiner_sub_category").css('visibility', 'visible');
+                            $("#tbody-child-category").empty();
+                        }
+                        else if (level == 22) {
+                            $("#tbody-modal").empty();
+                        }
+                        for (let i = 1; i <= result.length; i++) {
+                            let element = '<tr> '
+                                + '<th scope="row">' + i + '</th> '
+                                + '<td>' + result[i - 1].name + '</td> '
+                                + '<td> ';
+                            if (level == 1) {
+                                element = element
+                                    + '<button class="btn btn-primary my-category-button" '
+                                    + 'onclick="seeDetail(' + result[i - 1].id + ',' + result[i - 1].level + ',\'' + result[i - 1].name + '\')" '
+                                    + ' data-toggle="modal" data-target="#exampleModalCenter"><i '
+                                    + ' class="fa fa-eye"></i></button> '
+                                    + '<a href="/admin/category/edit_category/' + result[i - 1].id + '" class="btn btn-success my-category-button"><i '
+                                    + ' class="fa fa-edit"></i></a> '
+                                    + '<button class="btn btn-danger my-category-button" onclick="deleteItem(' + result[i - 1].id + ')"><i '
+                                    + ' class="fa fa-trash"></i></button> '
+                                    + '</td> '
+                                    + '</tr> ';
+                                $('#tbody-child-category').append(element);
+                            }
+                            else {
+                                element = element
+                                    + '<a href="/admin/category/edit_category/' + result[i - 1].id + '" class="btn btn-success my-category-button"><i '
+                                    + ' class="fa fa-edit"></i></a> '
+                                    + '<button class="btn btn-danger my-category-button" onclick="deleteItem(' + result[i - 1].id + ')" ><i'
+                                    + ' class="fa fa-trash"></i></button>'
+                                    + '</td>'
+                                    + '</tr>';
+                                $('#tbody-modal').append(element);
+                            }
+
+                        }
+                    }
+                }
+            });
+        }
+
+        function closeModal() {
+            $('#exampleModalCenter').modal('toggle');
+        }
+
+        function deleteItem(id) {
+            $.post('/admin/category/delete', { "id": id }, function (response) {
+                location.reload();
+            });
+        }
+
+        function logOut() {
+            $.ajax({
+                async: false,
+                type: "POST",
+                url: '/account/logout',
+            });
+            location.reload();
+        }
+    </script>
+</body>
+
+</html>

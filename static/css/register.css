@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900');
+.row {
+    box-sizing: content-box;
+}
+
+.main-center {
+    margin: auto;
+    margin-top: 20%;
+    max-width: 600px;
+    padding: 10px 50px;
+    font-weight: 700;
+    text-shadow: none;
+    box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.31);
+    border-radius: 10px;
+}
+
+h3 {
+    padding-top: 10px;
+    padding-bottom: 30px;
+    margin: 0;
+}
+
+hr {
+    width: 10%;
+    color: #fff;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+input,
+input::-webkit-input-placeholder {
+    font-size: 13px;
+    padding-top: 3px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.form-control {
+    height: auto!important;
+    padding: 8px 12px !important;
+}
+
+.input-group {
+    -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.21)!important;
+    -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.21)!important;
+    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.21)!important;
+}
+
+#button {
+    border: 1px solid #ccc;
+    border-radius: 5px 5px;
+    margin-top: 28px;
+    padding: 6px 12px;
+    color: #fff;
+    text-shadow: 0 1px #fff;
+    cursor: pointer;
+    box-shadow: 0 1px #fff inset, 0 1px #ddd;
+    background: #02a6fa;
+}
+
+.login-button {
+    margin-top: 5px;
+}
+
+.login-register {
+    font-size: 11px;
+    text-align: center;
+}
+
+#button:focus,
+#button:hover,
+#button:active,
+#button:active:focus {
+    background: #0400dfea;
+    border-color: #0400dfea;
+    color: #fff;
+}
+
+.bg {
+    /* The image used */
+    background-image: url("/picture/background_login.jpg");
+    /* Full height */
+    height: 100%;
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+body,
+html {
+    height: 100%;
+}

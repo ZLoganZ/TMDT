@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/register.css">
+    <title>Đăng ký</title>
+</head>
+
+<body class="bg">
+    <div class="d-flex justify-content-center align-items-center container ">
+        <div class="row">
+            <div class="main-center">
+                <h3>Vui lòng cung cấp thông tin của bạn</h3>
+                <form method="post" novalidate id="formRegister" name="formRegister">
+                    {{#if err_message}}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        {{err_message}}
+                    </div>
+                    {{/if}}
+                    <div class="form-group">
+                        <label for="name" class="cols-sm-2 control-label">Tên</label>
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="name" id="name"
+                                    placeholder="Nguyễn Văn A" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone" class="cols-sm-2 control-label">Số điện thoại</label>
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="phone" id="phone"
+                                    placeholder="0901234567" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="username" class="cols-sm-2 control-label">Địa chỉ</label>
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="address" id="address"
+                                    placeholder="123 Nguyễn Trãi Quận 1 TP.Hồ Chí Minh" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="cols-sm-2 control-label">Email</label>
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="email" id="email"
+                                    placeholder="abc@gmail.com" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password" class="cols-sm-2 control-label">Mật khẩu</label>
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <input type="password" class="form-control" name="password" id="password"
+                                    placeholder="******" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirm" class="cols-sm-2 control-label">Nhập lại mật khẩu</label>
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <input type="password" class="form-control" name="confirm" id="confirm"
+                                    placeholder="******" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="g-recaptcha" data-sitekey="6LcePAATAAAAAGPRWgx90814DTjgt5sXnNbV5WaW"></div>
+
+                    <div class="form-group ">
+                        <button type="submit" id="button" class="btn btn-primary btn-lg btn-block login-button">Đăng
+                            ký</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js?render=6LeQAMwUAAAAALi0MsAeaNput8Yosk2oVNJ1Idd-"></script>
+    <script>
+        document.getElementById("formRegister").addEventListener('submit', runVerify);
+        function runVerify(e) {
+            runCaptcha();
+        }
+
+        function runCaptcha() {
+            grecaptcha.execute('6LeQAMwUAAAAALi0MsAeaNput8Yosk2oVNJ1Idd-', { action: 'homepage' }).then(function (token) {
+                const captcha = token;
+                sendData(captcha);
+            });
+        }
+
+        function sendData(captcha) {
+            const info = JSON.stringify({ captcha: captcha });
+            fetch('/account/verify', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json'
+                },
+                body: info
+            }).then(res => res.json()).then(data => { console.log("msg: " + data.msg + ", success?: " + data.success + ", score: " + data.score) })
+        }
+    </script>
+</body>
+
+</html>

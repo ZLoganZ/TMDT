@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href="/assets/img/favicon.ico">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>Quản lý</title>
+
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+    <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
+
+    <!-- Bootstrap core CSS     -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
+
+    <!--  Light Bootstrap Table core CSS    -->
+    <link href="/static/css/light-bootstrap-dashboard.css?v=1.4.0" rel="stylesheet" />
+
+    <!--     Fonts and icons     -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
+    <!-- Theme included stylesheets -->
+    <link href="https://cdn.quilljs.com/1.1.9/quill.snow.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="sidebar" data-color="red" data-image="/assets/img/sidebar-5.jpg">
+            <div class="sidebar-wrapper">
+                <div class="logo">
+                    <a href="#" class="simple-text">
+                        ONLINE AUTION
+                    </a>
+                </div>
+
+                <ul class="nav">
+                    {{#if isAuthenticated}}
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="/account/profile">
+                            <i class="pe-7s-graph"></i>
+                            <p class="mb-0">Thông tin cá nhân</p>
+                        </a>
+                    </li>
+                    {{/if}}
+                    {{#if isSeller}}
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="/seller/product/">
+                            <i class="pe-7s-note2"></i>
+                            <p class="mb-0">Các sản phẩm đang bán</p>
+                        </a>
+                    </li>
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="/seller/product/selled">
+                            <i class="pe-7s-note2"></i>
+                            <p class="mb-0">Các sản phẩm đã bán</p>
+                        </a>
+                    </li>
+                    {{/if}}
+                    {{#if isAdmin}}
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="/admin/category">
+                            <i class="pe-7s-news-paper"></i>
+                            <p class="mb-0">Quản lý danh mục</p>
+                        </a>
+                    </li>
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="/admin/product">
+                            <i class="pe-7s-science"></i>
+                            <p class="mb-0">Quản lý sản phẩm</p>
+                        </a>
+                    </li>
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="/admin/user">
+                            <i class="pe-7s-map-marker"></i>
+                            <p class="mb-0">Quản lý người dùng</p>
+                        </a>
+                    </li>
+                    {{/if}}
+                    {{#if isBidder}}
+                    <li class="pl-3 my-li-dashboard my-active">
+                        <a href="/bidder/product/list_bidding">
+                            <i class="pe-7s-news-paper"></i>
+                            <p class="mb-0">Các sản phẩm đang đấu giá</p>
+                        </a>
+                    </li>
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="/bidder/product/winner">
+                            <i class="pe-7s-science"></i>
+                            <p class="mb-0">Các sản phẩm đã thắng</p>
+                        </a>
+                    </li>
+                    {{/if}}
+                    {{#if isAuthenticated}}
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="javascript: logOut()">
+                            <i class="pe-7s-graph"></i>
+                            <p class="mb-0">Thoát</p>
+                        </a>
+                    </li>
+                    {{/if}}
+                </ul>
+            </div>
+        </div>
+
+        <div class="main-panel">
+            <nav class="navbar navbar-default navbar-fixed">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="#">Quản lý sản phẩm</a>
+                    </div>
+                </div>
+            </nav>
+            <h4 class="ml-5">Danh sách sản phẩm:</h4>
+            <div class="row">
+                {{!-- <div class="col-sm-1">
+                </div> --}}
+                <div class="col-sm-12 ml-2 mr-2">
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col" width="5%" style="font-weight:bold;">STT</th>
+                                <th scope="col" width="19%" style="font-weight:bold;">Tên sản phẩm</th>
+                                <th scope="col" width="8%" style="font-weight:bold;">Chuyên mục</th>
+                                <th scope="col" width="6%" style="font-weight:bold;">Người bán</th>
+                                <th scope="col" width="7%" style="font-weight:bold;">Giá đã đặt</th>
+                                <th scope="col" width="7%" style="font-weight:bold;">Giá cao nhất</th>
+                                <th scope="col" width="6%" style="font-weight:bold;">Bội số</th>
+                                <th scope="col" width="10%" style="font-weight:bold;">Ngày bắt đầu</th>
+                                <th scope="col" width="10%" style="font-weight:bold;">Ngày kết thúc</th>
+                                <th scope="col" width="10%" style="font-weight:bold;">Ngày ra giá</th>
+                                <th scope="col" width="10%" style="font-weight:bold;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each this.listProduct}}
+                            <tr>
+                                <th scope="row" class="text-center">{{#if top_bidder}}<i
+                                        class="fa fa-trophy"></i>{{/if}}&nbsp;{{id}}</th>
+                                <td>{{name}}</td>
+                                <td>{{cat_name}}</td>
+                                <td>{{seller}}</td>
+                                <td class="text-right">{{format price}}</td>
+                                <td class="text-right">{{format top_price}}</td>
+                                <td class="text-right">{{format min_increase}}</td>
+                                <td>{{start_date_format}}</td>
+                                <td>{{end_date_format}}</td>
+                                <td>{{day_bidder}}</td>
+                                <td>
+                                    <a class="btn btn-success my-category-button" href="/category/products/{{id}}"><i
+                                            class="fa fa-arrow-right"></i></a>
+                                </td>
+                            </tr>
+                            {{/each}}
+                            {{!-- <tr>
+                                <th scope="row">2</th>
+                                <td>Laptop Gaming MSI GF75 Thin 9RCX 432VN GTX 1050Ti Intel Core i5 9300H 8GB 256GB 17.3” IPS 120Hz Backlight Keyboard Win 10</td>
+                                <td>MSI Gaming Series</td>
+                                <td>21.990.000₫</td>
+                                <td>500.000₫</td>
+                                <td>05/08/2020</td>
+                                <td>05/08/2019</td>
+                                <td>Laptop Gaming MSI GF75 Thin 9RCX 432VN là chiếc laptop đầu tiên mang thiên hướng thiết kế mới, thiết kế công thái học. Đối với game thủ cỗ máy chiến game không những phải mạnh mà còn phải có thiết kế hoàn hảo, có thể đồng hành cùng game thủ trong hàng giờ liền. Và đó là tiêu chí để GF75 Thin 9RCX 432VN ra đời.</td>
+                                <td>Bình thường</td>
+                                <td>
+                                    <button class="btn btn-secondary my-category-button"><i
+                                            class="fa fa-ban"></i></button>
+                                    <button class="btn btn-danger my-category-button"><i
+                                            class="fa fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td>Laptop Gaming MSI GF63 Thin 9SC 071VN Geforce GTX1650 4GB Intel Core i5 9300H 256GB 15.6” IPS Backlight Keyboard Win 10</td>
+                                <td>MSI Gaming Series</td>
+                                <td>24.990.000₫</td>
+                                <td>500.000₫</td>
+                                <td>13/05/2020</td>
+                                <td>13/05/2019</td>
+                                <td>Laptop MSI GF63 Thin 9SC 071VN với mặt trên vỏ kim loại xước và thiết kế bàn phím liền kề, măt dưới với khe thông gió hình chữ X ẩn vô cùng độ</td>
+                                <td>Bình thường</td>
+                                <td>
+                                    <button class="btn btn-secondary my-category-button"><i
+                                            class="fa fa-ban"></i></button>
+                                    <button class="btn btn-danger my-category-button"><i
+                                            class="fa fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">4</th>
+                                <td>Laptop MSI GF63 Thin 9RCX 645VN Geforce GTX1050Ti 4GB Intel Core i7 9750H 8GB 512GB 15.6” IPS Backlight Keyboard Win 10</td>
+                                <td>MSI Gaming Series</td>
+                                <td>24.190.000₫</td>
+                                <td>500.000₫</td>
+                                <td>20/05/2020</td>
+                                <td>20/05/2019</td>
+                                <td>Laptop MSI GF63 Thin 9RCX 646VN với mặt trên vỏ kim loại xước và thiết kế bàn phím liền kề, măt dưới với khe thông gió hình chữ X ẩn vô cùng độc đáo.</td>
+                                <td>Bình thường</td>
+                                <td>
+                                    <button class="btn btn-secondary my-category-button"><i
+                                            class="fa fa-ban"></i></button>
+                                    <button class="btn btn-danger my-category-button"><i
+                                            class="fa fa-trash"></i></button>
+                                </td>
+                            </tr> --}}
+                        </tbody>
+                    </table>
+                    <hr>
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-sm-12 d-flex justify-content-end">
+                    <button class="btn btn-danger" onclick="javascript: window.history.back();"><i
+                            class="fa fa-arrow-left"></i>&nbsp;Quay lại</button>
+                </div>
+            </div>
+
+            <footer class="footer mt-2">
+                <div class="container-fluid">
+                    <nav class="pull-left">
+                        <ul>
+                            <li>
+                                <a href="#">
+                                    Trang chủ
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Công ty
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Danh mục đầu tư
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Blog
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <p class="copyright pull-right">
+                        <a href="#">ONLINE AUTION</a>
+                    </p>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        function logOut() {
+            $.ajax({
+                async: false,
+                type: "POST",
+                url: '/account/logout',
+            });
+            location.reload();
+        }
+    </script>
+</body>
+
+</html>

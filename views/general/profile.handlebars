@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href="/assets/img/favicon.ico">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>Quản lý</title>
+
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+
+    <!-- Bootstrap core CSS     -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
+
+    <!--  Light Bootstrap Table core CSS    -->
+    <link href="/static/css/light-bootstrap-dashboard.css?v=1.4.0" rel="stylesheet" />
+
+    <!--     Fonts and icons     -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
+    <!-- Theme included stylesheets -->
+    <link href="https://cdn.quilljs.com/1.1.9/quill.snow.css" rel="stylesheet">
+    <style>
+        .status_like {
+            color: black;
+        }
+
+        .status_like:hover {
+            color: blue;
+            text-decoration: underline !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="sidebar" data-color="red" data-image="/assets/img/sidebar-5.jpg">
+            <div class="sidebar-wrapper">
+                <div class="logo">
+                    <a href="#" class="simple-text">
+                        ONLINE AUTION
+                    </a>
+                </div>
+
+                <ul class="nav">
+                    {{#if isAuthenticated}}
+                    <li class="my-active pl-3 my-li-dashboard">
+                        <a href="/account/profile">
+                            <i class="pe-7s-graph"></i>
+                            <p class="mb-0">Thông tin cá nhân</p>
+                        </a>
+                    </li>
+                    {{/if}}
+                    {{#if isSeller}}
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="/seller/product/">
+                            <i class="pe-7s-note2"></i>
+                            <p class="mb-0">Các sản phẩm đang bán</p>
+                        </a>
+                    </li>
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="/seller/product/selled">
+                            <i class="pe-7s-note2"></i>
+                            <p class="mb-0">Các sản phẩm đã bán</p>
+                        </a>
+                    </li>
+                    {{/if}}
+                    {{#if isAdmin}}
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="/admin/category">
+                            <i class="pe-7s-news-paper"></i>
+                            <p class="mb-0">Quản lý danh mục</p>
+                        </a>
+                    </li>
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="/admin/product">
+                            <i class="pe-7s-science"></i>
+                            <p class="mb-0">Quản lý sản phẩm</p>
+                        </a>
+                    </li>
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="/admin/user">
+                            <i class="pe-7s-map-marker"></i>
+                            <p class="mb-0">Quản lý người dùng</p>
+                        </a>
+                    </li>
+                    {{/if}}
+                    {{#if isBidder}}
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="/bidder/product/list_bidding">
+                            <i class="pe-7s-news-paper"></i>
+                            <p class="mb-0">Các sản phẩm đang đấu giá</p>
+                        </a>
+                    </li>
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="/bidder/product/winner">
+                            <i class="pe-7s-science"></i>
+                            <p class="mb-0">Các sản phẩm đã thắng</p>
+                        </a>
+                    </li>
+                    {{/if}}
+                    {{#if isAuthenticated}}
+                    <li class="pl-3 my-li-dashboard">
+                        <a href="javascript: logOut()">
+                            <i class="pe-7s-graph"></i>
+                            <p class="mb-0">Thoát</p>
+                        </a>
+                    </li>
+                    {{/if}}
+                </ul>
+            </div>
+        </div>
+
+        <div class="main-panel">
+            <nav class="navbar navbar-default navbar-fixed">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="#">Thông tin cá nhân</a>
+                    </div>
+                </div>
+            </nav>
+
+            {{!-- {{#each this.profile}}
+                <h1>{{Name}}</h1>
+            {{/each}} --}}
+            <h4>Thông tin tài khoản</h4>
+            <form method="POST">
+                <div class="form-group row">
+                    <label for="staticName" class="col-sm-2 col-form-label text-right">Họ Tên</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="name" name="name" value="{{this.profile.name}}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="staticSdt" class="col-sm-2 col-form-label text-right">SĐT</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="phone" name="phone" value="{{this.profile.phone}}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="staticEmail" class="col-sm-2 col-form-label text-right">Email</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="email" placeholder="email@example.com" name="email"
+                            value="{{this.profile.email}}">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="staticAddress" class="col-sm-2 col-form-label text-right">Địa chỉ</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="address" name="address"
+                            value="{{this.profile.address}}">
+                    </div>
+                </div>
+
+                {{#if this.profile.is_seller }}
+                <div class="form-group row">
+                    <label for="staticSdt" class="col-sm-2 col-form-label text-right">Đánh giá bidder</label>
+                    <div class="col-sm-8">
+                        <a class="status_like" href="/account/list_evaluate/bidder"> {{this.profile.likeBid}}%</a>
+
+                        {{!-- <p>Unlike: {{this.profile.unlikeBid}}%</p> --}}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="staticSdt" class="col-sm-2 col-form-label text-right">Đánh giá seller</label>
+                    <div class="col-sm-4">
+                        {{!-- <input type="password" class="form-control"  id="confirm_password" name="confirm_password"
+                            placeholder="Confirm your Password" readonly>
+                             --}}
+                        <a class="status_like" href="/account/list_evaluate/seller"> {{this.profile.likeSel}}%</a>
+                        {{!-- <p>Unlike: {{this.profile.unlikeSel}}%</p> --}}
+                    </div>
+                </div>
+                {{/if}}
+
+                {{#if this.profile.is_bidder}}
+                <div class="form-group row">
+                    <label for="staticSdt" class="col-sm-2 col-form-label text-right">Đánh giá bidder</label>
+                    <div class="col-sm-8">
+                        <a class="status_like" href="/account/list_evaluate/bidder"> {{this.profile.likeBid}}%</a>
+
+                        {{!-- <p>Unlike: {{this.profile.unlikeBid}}%</p> --}}
+                    </div>
+                </div>
+                {{/if}}
+                {{#if err_message}}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {{err_message}}
+                {{/if}}
+                <div class="alert alert-warning alert-dismissible fade show d-none" role="alert" id="notifiSuccess">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    Xin làm người bán thành công
+                </div>
+                <div class="row mt-2">
+                    <div class="col-sm-10 d-flex justify-content-end">
+                        {{#if this.profile.not_seller}}<button class="btn btn-primary mr-3" type="button"
+                            onclick="promoteSeller({{this.profile.id}})"><i class="fa fa-arrow-up"></i>&nbsp;Xin làm
+                            người bán</button>{{/if}}
+                        <button class="btn btn-success mr-3"><i class="fa fa-save"></i>&nbsp;Lưu</button>
+                        <button class="btn btn-danger"><i class="fa fa fa-arrow-left"></i>&nbsp;Quay lại</button>
+                    </div>
+                </div>
+            </form>
+
+            <footer class="footer mt-2">
+                <div class="container-fluid">
+                    <nav class="pull-left">
+                        <ul>
+                            <li>
+                                <a href="#">
+                                    Trang chủ
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Công ty
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Danh mục đầu tư
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Blog
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <p class="copyright pull-right">
+                        <a href="#">ONLINE AUTION</a>
+                    </p>
+                </div>
+            </footer>
+        </div>
+    </div>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+<script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
+<script>
+    function promoteSeller(id) {
+        $.ajax({
+            type: "POST",
+            url: '/account/promote',
+            data: { "id": id, "is_approve": true },
+            success: function (success) {
+                console.log(success)
+                if (success.success) {
+                    $("#notifiSuccess").removeClass("d-none");
+                }
+            },
+        });
+    }
+
+    function logOut() {
+        $.ajax({
+            async: false,
+            type: "POST",
+            url: '/account/logout',
+        });
+        location.reload();
+    }
+</script>
+
+</html>

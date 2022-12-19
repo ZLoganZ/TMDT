@@ -7,7 +7,7 @@
     let count = 0;
     function bid(id) {
         if (count == 0) {
-            $('.modal-body').append('<p class ="text-danger">Bạn có chắc chắn đấy gía sản phẩm này không</p>');
+            $('.modal-body').append('<p class ="text-danger">Bạn có chắc chắn đấy giá sản phẩm này không</p>');
             $("#text-price").prop("disabled", true);
             count++;
         }
@@ -16,6 +16,27 @@
             $.ajax({
                 type: "POST",
                 url: '/bidder/product/bid_product',
+                data: data,
+                success: function (result) {
+                    if (result.success) {
+                        location.reload();
+                    }
+                },
+            });
+        }
+    }
+
+    function buy(id){
+        if (count == 0) {
+            $('.modal-body').append('<p class ="text-danger">Bạn có chắc chắn đấy giá sản phẩm này không</p>');
+            $("#text-price").prop("disabled", true);
+            count++;
+        }
+        else{
+            let data = { id: id, price: $("#text-buy-price").val() };
+            $.ajax({
+                type: "POST",
+                url: '/bidder/product/buy_product_now',
                 data: data,
                 success: function (result) {
                     if (result.success) {
@@ -236,12 +257,17 @@
 
                 <div class="col-sm-8 d-flex justify-content-center">
                     <div class="container-button ">
-                        <button class="button-favorite" style="margin-left:10px; margin-right:10px;" data-toggle="modal"
-                            data-target="#modal_confirm_price" {{#if isBidder}}{{else}}disabled{{/if}} {{#if this.validValidate}}{{else}}disabled{{/if}} {{#if this.isOwnProduct}}disabled{{/if}}>&#10004;&nbsp;Ra
+                        <button class="button-favorite" style="margin-left:10px; margin-right:10px; width: 120px" data-toggle="modal"
+                            data-target="#modal_confirm_price" {{#if isBidder}}{{else}}disabled{{/if}} {{#if this.validValidate}}{{else}}disabled{{/if}} {{#if this.product.listDeny}}disabled{{/if}} {{#if this.product.isNotActive}}disabled{{/if}} {{#if this.isOwnProduct}}disabled{{/if}}>&#10004;&nbsp;Ra
                             giá</button>
                     </div>
+                    <div class="container-button ">
+                        <button class="button-favorite" style="margin-left:10px; margin-right:10px; width: 140px" data-toggle="modal"
+                            data-target="#modal_buy_now" {{#if isBidder}}{{else}}disabled{{/if}} {{#if this.validValidate}}{{else}}disabled{{/if}} {{#if this.product.listDeny}}disabled{{/if}} {{#if this.product.isNotActive}}disabled{{/if}} {{#if this.isOwnProduct}}disabled{{/if}}>&#10004;&nbsp;Mua
+                            ngay</button>
+                    </div>
                     <div class="container-button">
-                        <button class="button-favorite" style="margin-left:10px;"
+                        <button class="button-favorite" style="margin-left:10px; width: 250px"
                             onclick="addToFav({{this.product.id}})"
                             {{#if isBidder}}{{else}}disabled{{/if}}>&#11088;&nbsp;Thêm vào mục yêu
                             thích</button>
@@ -252,8 +278,7 @@
             {{else}}
             <div class="row">
                 <div class="col-sm-4"></div>
-                <div class="col-sm-8 d-flex justify-content-center text-danger">Bạn phải đăng nhập mới có thể ra giá
-                    hoặc thêm sản phẩm vào chuyên mục yêu thích của mình</div>
+                <div class="col-sm-8 d-flex justify-content-center text-danger">Bạn phải đăng nhập mới có thể ra giá hoặc thêm sản phẩm vào chuyên mục yêu thích của mình</div>
             </div>
             {{/if}}
             {{#if this.isOwnProduct}}
@@ -261,6 +286,10 @@
                 <div class="col-sm-4"></div>
                 <div class="col-sm-8 d-flex justify-content-center text-danger">Bạn không thể tự đấu giá sản phẩm của chính bản thân mình</div>
             </div>
+            {{else if this.product.isNotActive}}
+            <div class="row">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-8 d-flex justify-content-center text-danger">Sản phẩm đã được bán</div>
             {{else if this.product.listDeny}}
             <div class="row">
                 <div class="col-sm-4"></div>
@@ -636,6 +665,29 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary normal-fontsize" onclick="bid({{this.product.id}})">Tôi
+                        chắc chắn</button>
+                    <button type="button" class="btn btn-secondary normal-fontsize" data-dismiss="modal">Khoan
+                        đã</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="modal_buy_now" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="font-size: 25px;">Mua ngay sản phẩm</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body normal-fontsize">
+                    <p style="color: black; font-weight:bold">Mua ngay sản phẩm {{this.product.name}} với mức giá:</p>
+                    <input class="text-price" type="text" value="{{this.product.buynow_price}}"
+                        id="text-buy-price" />&nbsp;₫
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary normal-fontsize" onclick="buy({{this.product.id}})">Tôi
                         chắc chắn</button>
                     <button type="button" class="btn btn-secondary normal-fontsize" data-dismiss="modal">Khoan
                         đã</button>

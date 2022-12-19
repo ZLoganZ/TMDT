@@ -360,4 +360,45 @@ router.post('/bid_product', async(req, res) => {
     res.send({ success: true });
 })
 
+router.post('/buy_product_now', async(req, res) => {
+    const product = await categoryModel.single_by_id('tblproduct', req.body.id);
+    const user = await categoryModel.single_by_id('tbluser', res.locals.authUser.id);
+
+    let listProductWinner = JSON.parse(user[0].list_product_winner) || [];
+    let productItem = {};
+    productItem["id"] = product[0].id;
+    productItem["price"] = parseInt(req.body.price);
+
+    let offsetGMT = 7;
+    let today = new Date(new Date().getTime() + offsetGMT * 3600 * 1000);
+    productItem["date"] = today;
+    listProductWinner.push(productItem);
+
+    let entityID = { id: user[0].id };
+    let entity = { list_product_winner: JSON.stringify(listProductWinner) };
+
+    let result = await categoryModel.edit('tbluser', entity, entityID);
+
+    let listBidder = JSON.parse(product[0].list_bidder);
+    let bidderItem = {};
+    bidderItem["number"] = listBidder.length;
+    bidderItem["id"] = user[0].id;
+    bidderItem["name"] = user[0].name;
+    bidderItem["date"] = today;
+    bidderItem["price"] = parseInt(req.body.price);
+    let point = JSON.parse(user[0].point);
+    productItem["point"] = point[0].bidder;
+    listBidder.push(bidderItem);
+
+    entityID = { id: product[0].id };
+    entity = { list_bidder: JSON.stringify(listBidder) };
+    result = await categoryModel.edit('tblproduct', entity, entityID);
+    entity = { is_active: 0 };
+    result = await categoryModel.edit('tblproduct', entity, entityID);
+    entity = { is_expired: 1 };
+    result = await categoryModel.edit('tblproduct', entity, entityID);
+
+    res.send({ success: true });
+})
+
 module.exports = router;

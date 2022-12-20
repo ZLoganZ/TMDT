@@ -248,13 +248,19 @@
             <div class="jeowayContactAllInOne_container">
 
 
-                <div
+                <div onclick="myFunction()"
                     class="jeoway_btn_call my-toolbar" data-tooltip="Gọi ngay 0909374409 "
                     data-tooltip-location="left">
                     <a href="#">
                         <img src="/picture/icon/Capture1.PNG" width="48" height="48">
                     </a>
                 </div>
+                <script>
+                    function myFunction() {
+                    alert("Gọi ngay 0909374409");
+                    }
+                </script>
+
 
                 <div onclick="_paq.push(['trackEvent', 'Contact_All_In_All', 'ClickBtnChinhSachShip']);"
                     class="jeoway_btn_ship my-toolbar" data-tooltip="Chính sách giao hàng" data-tooltip-location="left">
@@ -275,7 +281,6 @@
                 <div 
                     class="jeoway_btn_DiaChi my-toolbar" data-tooltip="Địa chỉ của English Auction"
                     data-tooltip-location="left">
-                    {{!-- <a href="/account/Address" target="_blank"> --}}
                     <a href="/account/Address" target="_blank">
                         <img src="/picture/icon/Capture3.PNG" width="48" height="48">
                     </a>

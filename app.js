@@ -382,6 +382,22 @@ app.get('/', async(req, res) => {
     });
 });
 
+//address
+app.get('/Address', async(req, res) => {
+    res.render('Address');
+});
+
+// app.post('/Address', passport.authenticate('local', {
+//         failureRedirect: '/Address',
+//         failureFlash: true
+//     }),
+//     function(req, res) {
+//         req.session.isAuthenticated = true;
+//         req.session.authUser = req.user;
+//         const url = req.query.retUrl || '/';
+//         res.redirect(url);
+//     });
+
 app.get('/search', async(req, res) => {
     let table = "";
     let resultTotal = [];

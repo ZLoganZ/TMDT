@@ -5,33 +5,48 @@
     }
 
     function increaseValue(money, max) {
-            var value = parseInt(document.getElementById('text-price').value, 10);
-            value = isNaN(value) ? 0 : value;
-            value = value + money;
-            if(value >= max){
-                $('.modal-body').append('<p class ="text-danger">Ra giá không thể cao hơn hoặc bằng giá mua ngay</p>');
-                return;
-            }
-            document.getElementById('text-price').value = value;
+        var value = parseInt(document.getElementById('text-price').value, 10);
+        value = value + money;
+        document.getElementById('lower').setAttribute('hidden', '');
+        document.getElementById('sure').setAttribute('hidden', '');
+        if(value >= max){
+            document.getElementById('higher').removeAttribute('hidden');
+            return;
+        }
+        document.getElementById('text-price').value = value;
         }
 
     function decreaseValue(money, min) {
         var value = parseInt(document.getElementById('text-price').value, 10);
-        value = isNaN(value) ? 0 : value;
-        value < 1 ? value = 1 : '';
         value = value - money;
+        document.getElementById('higher').setAttribute('hidden', '');
+        document.getElementById('sure').setAttribute('hidden', '');
         if(value <= min){
-            $('.modal-body').append('<p class ="text-danger">Ra giá không thể thấp hơn hoặc bằng giá hiện tại</p>');
+            document.getElementById('lower').removeAttribute('hidden');
             return;
         }
         document.getElementById('text-price').value = value;
     }
 
+    function toggleHidden(money) {
+        document.getElementById('sure').setAttribute('hidden', '');
+        document.getElementById('lower').setAttribute('hidden', '');
+        document.getElementById('higher').setAttribute('hidden', '');
+        count = 0;
+        document.getElementById('text-price').value = money;
+    }
+
+    function toggleHidden2() {
+        document.getElementById('sure2').setAttribute('hidden', '');
+        count = 0;
+    }
+
     let count = 0;
     function bid(id) {
         if (count == 0) {
-            $('.modal-body').append('<p class ="text-danger">Bạn có chắc chắn đấu giá sản phẩm này không</p>');
-            $("#text-price").prop("disabled", true);
+            document.getElementById('lower').setAttribute('hidden', '');
+            document.getElementById('higher').setAttribute('hidden', '');
+            document.getElementById('sure').removeAttribute('hidden');
             count++;
         }
         else {
@@ -51,8 +66,7 @@
 
     function buy(id){
         if (count == 0) {
-            $('.modal-body').append('<p class ="text-danger">Bạn có chắc chắn đấu giá sản phẩm này không</p>');
-            $("#text-price").prop("disabled", true);
+            document.getElementById('sure2').removeAttribute('hidden');
             count++;
         }
         else{
@@ -676,7 +690,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" style="font-size: 25px;">Đấu giá sản phẩm</h5>  
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="toggleHidden({{this.product.recommend_price}})">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -689,11 +703,14 @@
                         <div class="value-button" id="increase" onclick="increaseValue({{this.product.min_increase}}, {{this.product.buynow_price}})" value="Increase Value">+</div>
                     </form>
                     <p style="color: black;">Đây là đấu giá tự động. Vui lòng chọn mức giá tối đa bạn có thể ra giá.</p>
+                    <p class ="text-danger" id="sure" hidden>Bạn có chắc chắn đấu giá sản phẩm này không?</p>
+                    <p class ="text-danger" id="higher" hidden >Ra giá không thể cao hơn hoặc bằng giá mua ngay</p>
+                    <p class ="text-danger" id="lower" hidden >Ra giá không thể thấp hơn hoặc bằng giá hiện tại</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary normal-fontsize" onclick="bid({{this.product.id}})">Tôi
                         chắc chắn</button>
-                    <button type="button" class="btn btn-secondary normal-fontsize" data-dismiss="modal">Khoan
+                    <button type="button" class="btn btn-secondary normal-fontsize" data-dismiss="modal" onclick="toggleHidden({{this.product.recommend_price}})">Khoan
                         đã</button>
                 </div>
             </div>
@@ -704,7 +721,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" style="font-size: 25px;">Mua ngay sản phẩm</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="toggleHidden2()">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -712,11 +729,12 @@
                     <p style="color: black; font-weight:bold">Mua ngay sản phẩm {{this.product.name}} với mức giá:</p>
                     <input class="text-price" type="text" value="{{this.product.buynow_price}}"
                         id="text-buy-price" disabled/>&nbsp;₫
+                    <p class ="text-danger" id="sure2" hidden>Bạn có chắc chắn đấu giá sản phẩm này không?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary normal-fontsize" onclick="buy({{this.product.id}})">Tôi
                         chắc chắn</button>
-                    <button type="button" class="btn btn-secondary normal-fontsize" data-dismiss="modal">Khoan
+                    <button type="button" class="btn btn-secondary normal-fontsize" data-dismiss="modal" onclick="toggleHidden2()">Khoan
                         đã</button>
                 </div>
             </div>

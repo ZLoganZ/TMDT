@@ -99,6 +99,24 @@ router.post('/login', passport.authenticate('local', {
         res.redirect(url);
     });
 
+//address
+router.get('/Address', async(req, res) => {
+    res.render('./Address', { layout: false, error: req.flash('error') });
+});
+
+router.post('/Address', passport.authenticate('local', {
+        failureRedirect: '/account/Address',
+        failureFlash: true
+    }),
+    function(req, res) {
+        req.session.isAuthenticated = true;
+        req.session.authUser = req.user;
+        const url = req.query.retUrl || '/';
+        res.redirect(url);
+    });
+
+
+
 // router.post('/login', async(req, res) => {
 //     const user = await categoryModel.single_by_email('tbluser', req.body.email);
 //     if (user === null) {

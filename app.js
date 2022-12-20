@@ -40,7 +40,7 @@ app.engine('handlebars', exphbs({
 app.set('view engine', 'handlebars');
 
 let interval = setInterval(async() => {
-    let offsetGMT = 7;
+    let offsetGMT = 0;
     let today = new Date(new Date().getTime() + offsetGMT * 3600 * 1000);
     const rowsProduct = await categoryModel.all_product_not_expired('tblproduct');
     // console.log(rowsProduct);
@@ -205,7 +205,7 @@ require('./middlewares/locals.mdw')(app);
 require('./middlewares/routes.mdw')(app);
 
 app.get('/', async(req, res) => {
-    let offsetGMT = 7;
+    let offsetGMT = 0;
     let today = new Date(new Date().getTime() + offsetGMT * 3600 * 1000);
     const rows1 = await categoryModel.all('tblproduct', today);
     let rows = [];
@@ -404,7 +404,7 @@ app.get('/search', async(req, res) => {
     if (req.query.style === "0") {
         table = "tblproduct";
         let rows1 = await categoryModel.full_text_search(table, req.query.search_text);
-        let offsetGMT = 7;
+        let offsetGMT = 0;
         let today = new Date(new Date().getTime() + offsetGMT * 3600 * 1000);
         let rows = [];
         for (let i = 0; i < rows1.length; i++) {
@@ -421,7 +421,7 @@ app.get('/search', async(req, res) => {
         let rows = await categoryModel.full_text_search(table, req.query.search_text);
         for (let i = 0; i < rows.length; i++) {
             let data = await categoryModel.all_product_by_cat('tblproduct', rows[i].id);
-            let offsetGMT = 7;
+            let offsetGMT = 0;
             let today = new Date(new Date().getTime() + offsetGMT * 3600 * 1000);
             let rows1 = [];
             for (let j = 0; j < data.length; j++) {
@@ -438,7 +438,7 @@ app.get('/search', async(req, res) => {
         let rows = await categoryModel.full_text_search(table, req.query.search_text);
         for (let i = 0; i < rows.length; i++) {
             let data = await categoryModel.all_product_by_seller('tblproduct', rows[i].id);
-            let offsetGMT = 7;
+            let offsetGMT = 0;
             let today = new Date(new Date().getTime() + offsetGMT * 3600 * 1000);
             let rows1 = [];
             for (let j = 0; j < data.length; j++) {
@@ -452,7 +452,7 @@ app.get('/search', async(req, res) => {
         }
     }
     // console.log(result);
-    let offsetGMT = 7;
+    let offsetGMT = 0;
     let dt = new Date(new Date().getTime() + offsetGMT * 3600 * 1000);
     const limit = config.paginate.limit;
     const page = req.query.page || 1;

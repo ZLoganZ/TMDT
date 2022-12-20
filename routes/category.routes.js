@@ -27,7 +27,7 @@ router.get('/:id/products', async(req, res) => {
     ]);
 
     const cat = await categoryModel.single_by_id('tblcategory', id);
-    let offsetGMT = 7;
+    let offsetGMT = 0;
     let dt = new Date(new Date().getTime() + offsetGMT * 3600 * 1000);
 
     if (rows.length == 0) {
@@ -423,7 +423,7 @@ router.get('/products/:id', async(req, res) => {
     let point = JSON.parse(rowsUser[0].point);
     let like = parseInt(point[0].seller.substring(0, point[0].seller.indexOf("-")));
     let disLike = parseInt(point[0].seller.substring(point[0].seller.indexOf("-") + 1));
-    let offsetGMT = 7;
+    let offsetGMT = 0;
     let dt = new Date(new Date().getTime() + offsetGMT * 3600 * 1000);
     product["seller_point"] = like / (disLike + like) * 100;
     if (like + disLike == 0) {

@@ -101,7 +101,7 @@ router.post('/login', passport.authenticate('local', {
 
 //address
 router.get('/Address', async(req, res) => {
-    res.render('./Address', { layout: false, error: req.flash('error') });
+    res.render('./Address', { error: req.flash('error') });
 });
 
 router.post('/Address', passport.authenticate('local', {

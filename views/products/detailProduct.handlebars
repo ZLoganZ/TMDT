@@ -4,6 +4,29 @@
         $("#img-container").attr("src", str);
     }
 
+    function increaseValue(money, max) {
+            var value = parseInt(document.getElementById('text-price').value, 10);
+            value = isNaN(value) ? 0 : value;
+            value = value + money;
+            if(value >= max){
+                $('.modal-body').append('<p class ="text-danger">Ra giá không thể cao hơn hoặc bằng giá mua ngay</p>');
+                return;
+            }
+            document.getElementById('text-price').value = value;
+        }
+
+    function decreaseValue(money, min) {
+        var value = parseInt(document.getElementById('text-price').value, 10);
+        value = isNaN(value) ? 0 : value;
+        value < 1 ? value = 1 : '';
+        value = value - money;
+        if(value <= min){
+            $('.modal-body').append('<p class ="text-danger">Ra giá không thể thấp hơn hoặc bằng giá hiện tại</p>');
+            return;
+        }
+        document.getElementById('text-price').value = value;
+    }
+
     let count = 0;
     function bid(id) {
         if (count == 0) {
@@ -648,20 +671,24 @@
     <!-- Button trigger modal -->
 
     <hr class="footer-landing " />
-    <div class="modal" id="modal_confirm_price" tabindex="-1" role="dialog">
+    <div class="modal" id="modal_confirm_price" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" style="font-size: 25px;">Đấu giá sản phẩm</h5>
+                    <h5 class="modal-title" style="font-size: 25px;">Đấu giá sản phẩm</h5>  
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body normal-fontsize">
                     <p style="color: black; font-weight:bold">Đấu giá sản phẩm {{this.product.name}} với mức giá:</p>
-                    <input class="text-price" type="text" value="{{this.product.recommend_price}}"
-                        id="text-price" />&nbsp;₫
-                    <p style="color: black;">Đây là đấu giá tự động. Vui lòng nhập mức giá tối đa bạn có thể ra giá.</p>
+                    <form>
+                        <div class="value-button" id="decrease" onclick="decreaseValue({{this.product.min_increase}}, {{this.product.top_price}})" value="Decrease Value">-</div>
+                        <input class="text-pricee" type="number" value="{{this.product.recommend_price}}"
+                        id="text-price" disabled/>
+                        <div class="value-button" id="increase" onclick="increaseValue({{this.product.min_increase}}, {{this.product.buynow_price}})" value="Increase Value">+</div>
+                    </form>
+                    <p style="color: black;">Đây là đấu giá tự động. Vui lòng chọn mức giá tối đa bạn có thể ra giá.</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary normal-fontsize" onclick="bid({{this.product.id}})">Tôi
@@ -672,7 +699,7 @@
             </div>
         </div>
     </div>
-    <div class="modal" id="modal_buy_now" tabindex="-1" role="dialog">
+    <div class="modal" id="modal_buy_now" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -684,7 +711,7 @@
                 <div class="modal-body normal-fontsize">
                     <p style="color: black; font-weight:bold">Mua ngay sản phẩm {{this.product.name}} với mức giá:</p>
                     <input class="text-price" type="text" value="{{this.product.buynow_price}}"
-                        id="text-buy-price" />&nbsp;₫
+                        id="text-buy-price" disabled/>&nbsp;₫
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary normal-fontsize" onclick="buy({{this.product.id}})">Tôi

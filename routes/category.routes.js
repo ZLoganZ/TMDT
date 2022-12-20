@@ -271,8 +271,8 @@ router.get('/:id/products', async(req, res) => {
                     }
                 }
             }
-            console.log('ok',list_bidder_object);
-            console.log('ok', rows)
+            //console.log('ok',list_bidder_object);
+            //console.log('ok', rows)
             let bidder_name = "";
             if(list_bidder_object.length > 0){
                 const getBidderName = await categoryModel.single_by_id('tbluser', list_bidder_object[list_bidder_object?.length - 1]?.id);
@@ -417,7 +417,7 @@ router.get('/products/:id', async(req, res) => {
     let isOwnProduct = false;
     product["seller_name"] = rowsUser[0].name;
     product["seller_id"] = rowsUser[0].id;
-    console.log("rowsUser[0].id: ", rowsUser[0].id)
+    //console.log("rowsUser[0].id: ", rowsUser[0].id)
     product["seller_phone"] = rowsUser[0].phone;
     product["seller_email"] = rowsUser[0].email;
     let point = JSON.parse(rowsUser[0].point);
@@ -478,7 +478,7 @@ router.get('/products/:id', async(req, res) => {
 
     for (let i = 0; i < product.list_bidder_object.length; i++) {
         let Bidder_of_Product = await categoryModel.single_by_id('tbluser', product.list_bidder_object[i].id);
-        console.log(product);
+        //console.log(product);
         var bidderPoint = JSON.parse(Bidder_of_Product[0].point);
         like = parseInt(bidderPoint[0].bidder.substring(0, bidderPoint[0].bidder.indexOf("-")));
         disLike = parseInt(bidderPoint[0].bidder.substring(bidderPoint[0].bidder.indexOf("-") + 1));
@@ -505,7 +505,7 @@ router.get('/products/:id', async(req, res) => {
         product.list_bidder_object[i].curProductID = req.params.id;
         product.list_bidder_object[i].BidderID = Bidder_of_Product[0].id;
     }
-    console.log(listBidder1);
+    //console.log(listBidder1);
 
     if (listBidder1.length == 0) {
         product["top_bidder"] = "Chưa ai ra giá"
@@ -647,7 +647,7 @@ router.get('/products/:id', async(req, res) => {
     if (res.locals.isAuthenticated) {
         if (product.list_deny.includes(res.locals.authUser.id)) {
             product["listDeny"] = true;
-            console.log("Có");
+            //console.log("Có");
         }
     }
     if (res.locals.isAuthenticated) {
@@ -686,7 +686,7 @@ router.get('/list_evaluate/:kind/:id', async(req, res) => {
             rows.push(tempProduct[0]);
         }
     }
-    console.log("day la winning length: ", list_product_winning.length);
+    //console.log("day la winning length: ", list_product_winning.length);
 
     for (let i = 0; i < rows.length; i++) {
         // rows[i]["status"] = rows[i].is_active == 1 ? "Bình thường" : "Vô hiệu hóa";
@@ -710,7 +710,7 @@ router.get('/list_evaluate/:kind/:id', async(req, res) => {
 
         let seller = await categoryModel.single_by_id("tbluser", rows[i].id_seller);
         rows[i]["name_seller"] = seller[0].name;
-        console.log("day la row ${i}", rows[i])
+        //console.log("day la row ${i}", rows[i])
     }
     // console.log("day la nhung product winner: ",rows);
 

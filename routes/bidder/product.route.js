@@ -332,9 +332,11 @@ router.post('/bid_product', async(req, res) => {
     productItem["id"] = product[0].id;
     productItem["price"] = parseInt(req.body.price);
 
-    let offsetGMT = 7;
+    let offsetGMT = 0;
     let today = new Date(new Date().getTime() + offsetGMT * 3600 * 1000);
-    productItem["date"] = today;
+    var current_date = today.getFullYear()+"-"+(today.getMonth()+1)+"-"+ today.getDate()+" "+today.getHours()+":"+today.getMinutes()+":"+ today.getSeconds();
+    console.log("current_date: ", current_date);
+    productItem["date"] = current_date;
     listProductBidding.push(productItem);
 
     let entityID = { id: user[0].id };
@@ -347,7 +349,7 @@ router.post('/bid_product', async(req, res) => {
     bidderItem["number"] = listBidder.length;
     bidderItem["id"] = user[0].id;
     bidderItem["name"] = user[0].name;
-    bidderItem["date"] = today;
+    bidderItem["date"] = current_date;
     bidderItem["price"] = parseInt(req.body.price);
     let point = JSON.parse(user[0].point);
     productItem["point"] = point[0].bidder;
@@ -369,15 +371,20 @@ router.post('/buy_product_now', async(req, res) => {
     productItem["id"] = product[0].id;
     productItem["price"] = parseInt(req.body.price);
 
-    let offsetGMT = 7;
+    let offsetGMT = 0;
     let today = new Date(new Date().getTime() + offsetGMT * 3600 * 1000);
-    productItem["date"] = today;
+    var current_date = today.getFullYear()+"-"+(today.getMonth()+1)+"-"+ today.getDate()+" "+today.getHours()+":"+today.getMinutes()+":"+ today.getSeconds();
+    productItem["date"] = current_date;
     listProductWinner.push(productItem);
 
     let entityID = { id: user[0].id };
     let entity = { list_product_winner: JSON.stringify(listProductWinner) };
 
     let result = await categoryModel.edit('tbluser', entity, entityID);
+
+    entityID = { id: product[0].id };
+    entity = {end_date: current_date};
+    result = await categoryModel.edit('tblproduct', entity, entityID);
 
     let listBidder = JSON.parse(product[0].list_bidder);
     let bidderItem = {};

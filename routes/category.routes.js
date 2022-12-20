@@ -639,6 +639,10 @@ router.get('/products/:id', async(req, res) => {
     } else {
         is_not_seller = true;
     }
+    product["isNotActive"] = true;
+    if (product.is_active == 1) {
+        product["isNotActive"] = false;
+    }
     product["listDeny"] = false;
     if (res.locals.isAuthenticated) {
         if (product.list_deny.includes(res.locals.authUser.id)) {
@@ -647,7 +651,7 @@ router.get('/products/:id', async(req, res) => {
         }
     }
     if (res.locals.isAuthenticated) {
-        if (product.id_seller == res.locals.authUser.id && !validValidate) {
+        if (product.id_seller == res.locals.authUser.id && validValidate) {
             isOwnProduct = true;
         }
     }

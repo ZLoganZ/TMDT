@@ -383,8 +383,8 @@ app.get('/', async(req, res) => {
 });
 
 //address
-app.get('/Address', async(req, res) => {
-    res.render('Address');
+app.get('/address', async(req, res) => {
+    res.render('address');
 });
 
 

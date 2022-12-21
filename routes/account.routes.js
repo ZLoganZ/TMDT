@@ -279,13 +279,3 @@ router.post('/edit', async(req, res) => {
     res.redirect('/admin/user');
 });
 module.exports = router;
-
-//get_user_payment
-router.get('/get_user_payment',restrict, async(req, res) => {
-    const user = await categoryModel.single_by_id('tbluser', req.session?.authUser?.id);
-    console.log(user[0].point);
-    res.send(user[0]);
-
-
-});
-

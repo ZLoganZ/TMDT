@@ -234,6 +234,7 @@ router.get('/winner', async(req, res) => {
     // }
     res.render('bidder/list_product_winner', {
         listProduct: listProductWinner,
+        user: userBidder[0],
         empty: listProductWinner.length === 0,
         layout: false
     });

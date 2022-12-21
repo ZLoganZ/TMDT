@@ -93,11 +93,8 @@ router.post('/edit', async(req, res) => {
             listRole.push(parseInt(req.body.role[i]));
         }
         json = JSON.stringify(listRole);
-    } else if(req.body.role != null) {
-        json = JSON.stringify([parseInt(req.body.role)]);
-    }
-    else{
-        json = JSON.stringify([]);
+    } else{
+        json = JSON.stringify([req.body.role != null ?  parseInt(req.body.role) : '']);
     }
     let entity = {
         "is_approve_seller": false,

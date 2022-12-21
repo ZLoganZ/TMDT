@@ -151,7 +151,7 @@
                                 <td>{{formatPhone phone}}</td>
                                 <td>{{address}}</td>
                                 <td>{{email}}</td>
-                                <td>{{role_name}}</td>
+                                <td>{{#if role_name}}{{role_name}}{{else}}Không có quyền{{/if}}</td>
                                 <td>{{#if is_approve_seller}}Đang xin{{else}}Không{{/if}}</td>
                                 <td>{{status}}</td>
                                 <td>

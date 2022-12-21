@@ -387,9 +387,11 @@ body {
 }
 
 .container-thumbnails {
+    display: block;
     width: 70px;
     height: 70px;
     margin: 0;
+    float: left;
 }
 
 .button-favorite {

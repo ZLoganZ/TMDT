@@ -13,7 +13,11 @@ function initialize(passport) {
         if (rs === false) {
             return done(null, false, { message: 'Mật khẩu bạn nhập vào sai' })
         }
-
+        console.log(user);
+        if(user.is_active == 2)
+        {
+            return done(null, false, { message: 'Tài khoản của bạn đã bị khóa' })
+        }
         return done(null, user);
     }
     passport.use(new LocalStrategy({

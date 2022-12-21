@@ -241,7 +241,7 @@
             <div class="modal fade" id="ModalPayment" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
               <div class="modal-dialog" role="document">
                <div class="modal-content">
-                             <div class="modal-header">
+                    <div class="modal-header">
                  <h5 class="modal-title" id="exampleModalCenterTitle">Thanh Toán</h5>
                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
@@ -250,32 +250,32 @@
                         <div class="modal-body my-content-modal" style="background-color: #f7f7f8;">
                             <form method="POST" id="form-edit-user">
                                 <input name="user_id" id="user_id" type="text" class="my-product-input pl-2"
-                                    value="Nguyễn Hoàng Hải" style="display: none;" />
+                                    value="{{this.get_user_payment.id}}" style="display: none;" />
                 <div class="form-group row">
-                    <label for="staticName" class="col-sm-2 col-form-label text-right">Họ Tên</label>
+                    <label for="staticName" class="col-sm-3 text-right">Họ Tên</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="name" name="name" value="{{this.get_user_payment.name}}">
+                        <input type="text" class="form-control" id="user_name" name="user_name" value="123">
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="staticName" class="col-sm-2 col-form-label text-right">Số Điện Thoại</label>
+                    <label for="staticName" class="col-sm-3 text-right">Số Điện Thoại</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="name" name="name" value="{{this.get_user_payment.phone}}">
+                        <input type="text" class="form-control" id="user_phone" name="user_phone" value="123">
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="staticName" class="col-sm-2 col-form-label text-right">Email</label>
+                    <label for="staticName" class="col-sm-3 text-right">Email</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="name" name="name" value="{{this.get_user_payment.email}}">
+                        <input type="text" class="form-control" id="user_email" name="user_email" value="123">
                     </div>
                 </div>
 
                 <div class="form-group row">
                     <label for="staticName" class="col-sm-3 text-right">Địa Chỉ Nhận Hàng</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="name" name="name" value="{{this.get_user_payment.address}}">
+                        <input type="text" class="form-control" id="user_address" name="user_address" value="123">
                     </div>
                 </div>
 
@@ -387,7 +387,12 @@
         function PaymentUser() {
             $.ajax({
                 url: "/account/get_user_payment/", async: false, success: function (result) {
-                    
+                    $("#user_id").val(result.id);
+                    $("#user_name").val(result.name);
+                    $("#user_email").val(result.email);
+                    $("#user_phone").val(result.phone);
+                    $("#user_address").val(result.address);
+
                 }
             });
         }

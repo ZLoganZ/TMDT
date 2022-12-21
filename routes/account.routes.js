@@ -284,14 +284,8 @@ module.exports = router;
 router.get('/get_user_payment',restrict, async(req, res) => {
     const user = await categoryModel.single_by_id('tbluser', req.session?.authUser?.id);
     console.log(user[0].point);
-    let tempKeyPair = Object.entries(listDanhGia).map(([key, value]) => ({ key, value }))
-    //   console.log("Key Value: ",like+unlike);
-    //   console.log("Key Value: ",like+unlike);
-    res.render('bidder/list_product_winner', {
-        layout: false,
-        profile: user[0],
+    res.send(user[0]);
 
-    });
 
 });
 

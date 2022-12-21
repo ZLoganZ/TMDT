@@ -59,10 +59,10 @@
         <div class="body-wrapper-inner margin-from-header">
             <header id="header" class="header header-style3">
                 <div class="header-mid clearfix sticky-mid">
-                    <div class="container">
+                    <div class="container" style="max-width: 1200px; margin-bottom: 20px">
                         <div class="rows">
                             <!-- Logo -->
-                            <div class="etrostore-logo pull-left my-container-logo">
+                            <div class="etrostore-logo pull-left my-container-logo" style="width:fit-content;">
                                 <a href="/">
                                     <img class=" lazyloaded" src="/picture/logo.png" alt="English Auction logo">
                                 </a>
@@ -101,7 +101,8 @@
                                                                                     role="button" data-toggle="dropdown"
                                                                                     aria-haspopup="true"
                                                                                     aria-expanded="false" style="font-size: 15px;">
-                                                                                    Hi, <b>{{authUser.name}}!</b>
+                                                                                    Hi, <b>{{authUser.name}}!</b> <br>
+                                                                                    Bạn có <b>{{format authUser.money}}</b>
                                                                                 </a>
                                                                                 <div class="dropdown-menu dropdown-menu-right my-dropdown-item"
                                                                                     aria-labelledby="navbarDropdown">
@@ -117,7 +118,7 @@
                                                                                         Quản lý
                                                                                     </a>
                                                                                     <a class="dropdown-item"
-                                                                                        href="/" style="font-size: 15px;">
+                                                                                        href="javascript: logOut()" style="font-size: 15px;">
                                                                                         <i
                                                                                             class="fas fa-sign-out-alt"></i>
                                                                                         Logout
@@ -211,8 +212,8 @@
                     <div class="khungList">
                         <ul>
                             <li><a href="#">Trang chủ</a></li>
-                            <li><a href="#" target="_blank" rel="noopener">Các đối tác</a></li>
-                            <li>Tuyển dụng</li>
+                            <li><a href="#"rel="noopener">Các đối tác</a></li>
+                            <li><a href="#"rel="noopener">Tuyển dụng</a></li>
                         </ul>
                     </div>
                 </div>

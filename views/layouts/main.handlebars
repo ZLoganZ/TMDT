@@ -59,15 +59,15 @@
         <div class="body-wrapper-inner margin-from-header">
             <header id="header" class="header header-style3">
                 <div class="header-mid clearfix sticky-mid">
-                    <div class="container">
+                    <div class="container" style="max-width: 1200px; margin-bottom: 30px">
                         <div class="rows">
                             <!-- Logo -->
-                            <div class="etrostore-logo pull-left my-container-logo">
+                            <div class="etrostore-logo pull-left my-container-logo" style="width:fit-content;">
                                 <a href="/">
                                     <img class=" lazyloaded" src="/picture/logo.png" alt="English Auction logo">
                                 </a>
                             </div>
-                            <div class="mid-header pull-right">
+                            <div class="mid-header pull-right" style="vertical-align: -webkit-baseline-middle;">
                                 <div class="widget sw_ajax_woocommerce_search-6 sw_ajax_woocommerce_search pull-left">
                                     <div class="widget-inner">
                                         <a class="search-icon fa fa-search"></a>
@@ -75,7 +75,7 @@
                                             <div class="top-form top-search non-category">
                                                 <div class="topsearch-entry">
                                                     <form onsubmit="false" method="GET" action="/search">
-                                                        <div id="sw_woo_search_1" class="search search-group" style="width: 892px;">
+                                                        <div id="sw_woo_search_1" class="search search-group" style="width: 920px; margin-top: 20px;">
                                                             <div class="content-search d-inline-block">
                                                                 <select class="my-select-search" name="style" id="style">
                                                                     <option value="0" selected>Tên sản phẩm</option>
@@ -100,8 +100,9 @@
                                                                                     href="#" id="navbarDropdown"
                                                                                     role="button" data-toggle="dropdown"
                                                                                     aria-haspopup="true"
-                                                                                    aria-expanded="false" style="font-size: 15px;">
-                                                                                    Hi, <b>{{authUser.name}}!</b>
+                                                                                    aria-expanded="false" style="font-size: 15px; vertical-align: -webkit-baseline-middle;">
+                                                                                    Hi, <b>{{authUser.name}}!</b> <br>
+                                                                                    Bạn có <b>{{format authUser.money}}</b>
                                                                                 </a>
                                                                                 <div class="dropdown-menu dropdown-menu-right my-dropdown-item"
                                                                                     aria-labelledby="navbarDropdown">
@@ -156,9 +157,9 @@
         <div id="service-Xgear">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-4 d-flex justify-content-end">
+                    <div class="col-md-4 d-flex justify-content-center">
                         <div>
-                            <img class=" lazyloaded animated slideInLeft infinite slower" src="/picture/logo.png"
+                            <img class=" lazyloaded animated jackInTheBox infinite slower" src="/picture/logo.png"
                                 data-src="/picture/logo.png" alt="English Auction" style=" margin-left: -20px; ">
                         </div>
                     </div>
@@ -211,8 +212,8 @@
                     <div class="khungList">
                         <ul>
                             <li><a href="#">Trang chủ</a></li>
-                            <li><a href="#" target="_blank" rel="noopener">Các đối tác</a></li>
-                            <li>Tuyển dụng</li>
+                            <li><a href="#"rel="noopener">Các đối tác</a></li>
+                            <li><a href="#"rel="noopener">Tuyển dụng</a></li>
                         </ul>
                     </div>
                 </div>
@@ -302,6 +303,7 @@
     </section>
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
         crossorigin="anonymous"></script>
@@ -318,6 +320,9 @@
             });
             location.reload();
         }
+        $( document ).ready(function() {
+        new WOW().init();
+        });
     </script>
     {{{_sections.js}}}
 </body>

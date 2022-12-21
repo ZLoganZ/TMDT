@@ -77,13 +77,13 @@
                             <p class="mb-0">Quản lý danh mục</p>
                         </a>
                     </li>
-                    <li class="pl-3 my-li-dashboard my-active">
+                    <li class="pl-3 my-li-dashboard">
                         <a href="/admin/product">
                             <i class="pe-7s-science"></i>
                             <p class="mb-0">Quản lý sản phẩm</p>
                         </a>
                     </li>
-                    <li class="pl-3 my-li-dashboard">
+                    <li class="pl-3 my-li-dashboard my-active">
                         <a href="/admin/user">
                             <i class="pe-7s-map-marker"></i>
                             <p class="mb-0">Quản lý người dùng</p>
@@ -106,9 +106,9 @@
                     {{/if}}
                     {{#if isAuthenticated}}
                     <li class="pl-3 my-li-dashboard">
-                        <a href="javascript: logOut()">
+                        <a href="/">
                             <i class="pe-7s-graph"></i>
-                            <p class="mb-0">Đăng xuất</p>
+                            <p class="mb-0">Thoát</p>
                         </a>
                     </li>
                     {{/if}}
@@ -151,7 +151,7 @@
                                 <td>{{formatPhone phone}}</td>
                                 <td>{{address}}</td>
                                 <td>{{email}}</td>
-                                <td>{{role_name}}</td>
+                                <td>{{#if role_name}}{{role_name}}{{else}}Không có quyền{{/if}}</td>
                                 <td>{{#if is_approve_seller}}Đang xin{{else}}Không{{/if}}</td>
                                 <td>{{status}}</td>
                                 <td>
@@ -305,6 +305,7 @@
                     $('#chxboxAdmin').prop('checked', false);
                     $('#chxboxSeller').prop('checked', false);
                     $('#chxboxBidder').prop('checked', false);
+                     $('#chxboxAdmin').prop('disabled', false);
                     console.log(result);
                     $("#user_id").val(result.id);
                     $("#user_name").val(result.name);
@@ -316,6 +317,8 @@
                     for (let i = 0; i < listRole.length; i++) {
                         if (listRole[i] === 1) {
                             $('#chxboxAdmin').prop('checked', true);
+                            //disable checkbox admin
+                            $('#chxboxAdmin').prop('disabled', true);
                         }
                         else if (listRole[i] === 2) {
                             $('#chxboxSeller').prop('checked', true);

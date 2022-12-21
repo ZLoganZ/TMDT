@@ -14,7 +14,7 @@
         <div class="row">
             <div class="main-center">
                 <h3>Vui lòng cung cấp thông tin của bạn</h3>
-                <form method="post" novalidate id="formRegister" name="formRegister">
+                <form method="post" id="formRegister" name="formRegister">
                     {{#if err_message}}
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -28,7 +28,7 @@
                         <div class="cols-sm-10">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="name" id="name"
-                                    placeholder="Nguyễn Văn A" />
+                                    placeholder="Nguyễn Văn A" required>
                             </div>
                         </div>
                     </div>
@@ -37,8 +37,8 @@
                         <label for="phone" class="cols-sm-2 control-label">Số điện thoại</label>
                         <div class="cols-sm-10">
                             <div class="input-group">
-                                <input type="text" class="form-control" name="phone" id="phone"
-                                    placeholder="0901234567" />
+                                <input type="number" class="form-control" name="phone" id="phone"
+                                    placeholder="0901234567" required>
                             </div>
                         </div>
                     </div>
@@ -48,7 +48,7 @@
                         <div class="cols-sm-10">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="address" id="address"
-                                    placeholder="123 Nguyễn Trãi Quận 1 TP.Hồ Chí Minh" />
+                                    placeholder="123 Nguyễn Trãi Quận 1 TP.Hồ Chí Minh" required>
                             </div>
                         </div>
                     </div>
@@ -57,8 +57,8 @@
                         <label for="email" class="cols-sm-2 control-label">Email</label>
                         <div class="cols-sm-10">
                             <div class="input-group">
-                                <input type="text" class="form-control" name="email" id="email"
-                                    placeholder="abc@gmail.com" />
+                                <input type="email" class="form-control" name="email" id="email"
+                                    placeholder="abc@gmail.com" required>
                             </div>
                         </div>
                     </div>
@@ -68,7 +68,7 @@
                         <div class="cols-sm-10">
                             <div class="input-group">
                                 <input type="password" class="form-control" name="password" id="password"
-                                    placeholder="******" />
+                                    placeholder="******" required>
                             </div>
                         </div>
                     </div>
@@ -78,7 +78,7 @@
                         <div class="cols-sm-10">
                             <div class="input-group">
                                 <input type="password" class="form-control" name="confirm" id="confirm"
-                                    placeholder="******" />
+                                    placeholder="******" required>
                             </div>
                         </div>
                     </div>

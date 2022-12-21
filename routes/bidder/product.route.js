@@ -241,56 +241,6 @@ router.get('/winner', async(req, res) => {
 })
 
 
-
-//payment    
-    
-router.get('/Payment', async(req, res) => {
-    const user = await categoryModel.single_by_id('tbluser', req.session?.authUser?.id);
-    user[0]["not_seller"] = !res.locals.isSeller;
-
-    user[0]["is_seller"] = res.locals.isSeller;
-    if (!user[0]["is_seller"]) {
-        user[0]["is_bidder"] = res.locals.isBidder;
-    }
-    // console.log(user[0].point);
-    // const listDanhGia1 = JSON.parse(user[0].point);
-    // const listDanhGia = listDanhGia1[0];
-    // let tempKeyPair = Object.entries(listDanhGia).map(([key, value]) => ({ key, value }))
-    // const likeSel = parseInt(tempKeyPair[0].value.split("-")[0]);
-    // const unlikeSel = parseInt(tempKeyPair[0].value.split("-")[1]);
-    // const seller = likeSel + unlikeSel;
-    //   console.log("Key Value: ",like+unlike);
-    // if (seller == 0) {
-    //     user[0]["likeSel"] = 100;
-    //     user[0]["unlikeSel"] = 100;
-    // }
-    // if (seller > 0) {
-    //     user[0]["likeSel"] = Math.ceil(likeSel / seller * 100);
-    //     user[0]["unlikeSel"] = unlikeSel / seller * 100;
-    // }
-
-
-    // const likeBid = parseInt(tempKeyPair[1].value.split("-")[0]);
-    // const unlikeBid = parseInt(tempKeyPair[1].value.split("-")[1]);
-    // const bidder = likeBid + unlikeBid;
-    // //   console.log("Key Value: ",like+unlike);
-    // if (bidder == 0) {
-    //     user[0]["likeBid"] = 100;
-    //     user[0]["unlikeBid"] = 100;
-    // }
-    // if (bidder > 0) {
-    //     user[0]["likeBid"] = Math.ceil(likeBid / bidder * 100);
-    //     user[0]["unlikeBid"] = unlikeBid / bidder * 100;
-    // }
-
-    res.render('Payment/Payment', {
-        layout: false,
-        profile: user[0],
-
-    });
-
-});
-
 router.post('/Payment', async(req, res) => {
     let entityId = { id: req.session.authUser.id };
     const user = await categoryModel.single_by_id('tbluser', req.session.authUser.id);

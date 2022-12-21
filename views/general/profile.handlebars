@@ -158,56 +158,9 @@
                     </div>
                 </div>
 
-                {{#if this.profile.is_seller }}
-                <div class="form-group row">
-                    <label for="staticSdt" class="col-sm-2 col-form-label text-right">Đánh giá bidder</label>
-                    <div class="col-sm-8">
-                        <a class="status_like" href="/account/list_evaluate/bidder"> {{this.profile.likeBid}}%</a>
 
-                        {{!-- <p>Unlike: {{this.profile.unlikeBid}}%</p> --}}
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="staticSdt" class="col-sm-2 col-form-label text-right">Đánh giá seller</label>
-                    <div class="col-sm-4">
-                        {{!-- <input type="password" class="form-control"  id="confirm_password" name="confirm_password"
-                            placeholder="Confirm your Password" readonly>
-                             --}}
-                        <a class="status_like" href="/account/list_evaluate/seller"> {{this.profile.likeSel}}%</a>
-                        {{!-- <p>Unlike: {{this.profile.unlikeSel}}%</p> --}}
-                    </div>
-                </div>
-                {{/if}}
-
-                {{#if this.profile.is_bidder}}
-                <div class="form-group row">
-                    <label for="staticSdt" class="col-sm-2 col-form-label text-right">Đánh giá bidder</label>
-                    <div class="col-sm-8">
-                        <a class="status_like" href="/account/list_evaluate/bidder"> {{this.profile.likeBid}}%</a>
-
-                        {{!-- <p>Unlike: {{this.profile.unlikeBid}}%</p> --}}
-                    </div>
-                </div>
-                {{/if}}
-                {{#if err_message}}
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                {{err_message}}
-                {{/if}}
-                <div class="alert alert-warning alert-dismissible fade show d-none" role="alert" id="notifiSuccess">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    Xin làm người bán thành công
-                </div>
                 <div class="row mt-2">
                     <div class="col-sm-10 d-flex justify-content-end">
-                        {{#if this.profile.not_seller}}<button class="btn btn-primary mr-3" type="button"
-                            onclick="promoteSeller({{this.profile.id}})"><i class="fa fa-arrow-up"></i>&nbsp;Xin làm
-                            người bán</button>{{/if}}
                         <button class="btn btn-success mr-3"><i class="fa fa-save"></i>&nbsp;Lưu</button>
                         <button class="btn btn-danger"><i class="fa fa fa-arrow-left"></i>&nbsp;Quay lại</button>
                     </div>

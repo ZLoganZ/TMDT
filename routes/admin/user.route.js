@@ -50,6 +50,9 @@ router.get('/get_user/:id', async(req, res) => {
     }
 })
 
+
+
+
 router.get('/get_userrole', async(req, res) => {
     if (!res.locals.isAdmin) {
         return res.render('error_permission', { layout: false });

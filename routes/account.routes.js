@@ -280,4 +280,23 @@ router.post('/edit', async(req, res) => {
 });
 module.exports = router;
 
+//get_user_payment
+router.get('/get_user_payment',restrict, async(req, res) => {
+    const user = await categoryModel.single_by_id('tbluser', req.session?.authUser?.id);
+    console.log(user[0].point);
+    const listDanhGia1 = JSON.parse(user[0].point);
+    const listDanhGia = listDanhGia1[0];
+    let tempKeyPair = Object.entries(listDanhGia).map(([key, value]) => ({ key, value }))
+    const likeSel = parseInt(tempKeyPair[0].value.split("-")[0]);
+    const unlikeSel = parseInt(tempKeyPair[0].value.split("-")[1]);
+    const seller = likeSel + unlikeSel;
+    //   console.log("Key Value: ",like+unlike);
+    //   console.log("Key Value: ",like+unlike);
+    res.render('bidder/list_product_winner', {
+        layout: false,
+        profile: user[0],
+
+    });
+
+});
 

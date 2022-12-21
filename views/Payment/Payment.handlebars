@@ -158,37 +158,6 @@
                     </div>
                 </div>
 
-                {{#if this.profile.is_seller }}
-                <div class="form-group row">
-                    <label for="staticSdt" class="col-sm-2 col-form-label text-right">Đánh giá bidder</label>
-                    <div class="col-sm-8">
-                        <a class="status_like" href="/account/list_evaluate/bidder"> {{this.profile.likeBid}}%</a>
-
-                        {{!-- <p>Unlike: {{this.profile.unlikeBid}}%</p> --}}
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="staticSdt" class="col-sm-2 col-form-label text-right">Đánh giá seller</label>
-                    <div class="col-sm-4">
-                        {{!-- <input type="password" class="form-control"  id="confirm_password" name="confirm_password"
-                            placeholder="Confirm your Password" readonly>
-                             --}}
-                        <a class="status_like" href="/account/list_evaluate/seller"> {{this.profile.likeSel}}%</a>
-                        {{!-- <p>Unlike: {{this.profile.unlikeSel}}%</p> --}}
-                    </div>
-                </div>
-                {{/if}}
-
-                {{#if this.profile.is_bidder}}
-                <div class="form-group row">
-                    <label for="staticSdt" class="col-sm-2 col-form-label text-right">Đánh giá bidder</label>
-                    <div class="col-sm-8">
-                        <a class="status_like" href="/account/list_evaluate/bidder"> {{this.profile.likeBid}}%</a>
-
-                        {{!-- <p>Unlike: {{this.profile.unlikeBid}}%</p> --}}
-                    </div>
-                </div>
-                {{/if}}
                 {{#if err_message}}
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">

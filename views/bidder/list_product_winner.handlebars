@@ -151,7 +151,11 @@
                         <tbody>
                             {{#each this.listProduct}}
                             <tr>
-                                <th scope="row" class="text-center"><a href="/bidder/product/Payment"><i class="fa fa-trophy" style="color: #000;"></i></a></th>
+                                <th scope="row" class="text-center">
+                                    <button type="button" class="btn btn-primary" onclick="PaymentUser()" data-toggle="modal" data-target="#ModalPayment">
+                                            <i class="fa fa-trophy" style="color: #000;"></i>
+                                    </button>
+                                </th>
                                 <td>{{name}}</td>
                                 <td>{{cat_name}}</td>
                                 <td class="text-right">{{format top_price}}</td>
@@ -232,6 +236,64 @@
                     <hr>
                 </div>
             </div>
+
+            {{!-- ModalPayment --}}
+            <div class="modal fade" id="ModalPayment" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+               <div class="modal-content">
+                             <div class="modal-header">
+                 <h5 class="modal-title" id="exampleModalCenterTitle">Thanh Toán</h5>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                 </div>
+                        <div class="modal-body my-content-modal" style="background-color: #f7f7f8;">
+                            <form method="POST" id="form-edit-user">
+                                <input name="user_id" id="user_id" type="text" class="my-product-input pl-2"
+                                    value="Nguyễn Hoàng Hải" style="display: none;" />
+                <div class="form-group row">
+                    <label for="staticName" class="col-sm-2 col-form-label text-right">Họ Tên</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="name" name="name" value="{{this.get_user_payment.name}}">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="staticName" class="col-sm-2 col-form-label text-right">Số Điện Thoại</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="name" name="name" value="{{this.get_user_payment.phone}}">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="staticName" class="col-sm-2 col-form-label text-right">Email</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="name" name="name" value="{{this.get_user_payment.email}}">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="staticName" class="col-sm-3 text-right">Địa Chỉ Nhận Hàng</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="name" name="name" value="{{this.get_user_payment.address}}">
+                    </div>
+                </div>
+
+
+                                <div class="row mt-2 d-flex justify-content-end">
+                                    <div class="modal-footer">
+                                        <button type="submit" formaction="../../account/profile"
+                                            class="btn btn-success mr-3"><i class="fa fa-save"></i>&nbsp;Thanh Toán</button>
+                                        <button type="button" class="btn btn-danger" onclick="closeModal()"><i
+                                                class="fa fa fa-arrow-left"></i>&nbsp;Quay lại</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                </div>
+             </div>
+            </div>                
+
 
             <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -322,6 +384,14 @@
             });
             location.reload();
         }
+        function PaymentUser() {
+            $.ajax({
+                url: "/account/get_user_payment/", async: false, success: function (result) {
+                    
+                }
+            });
+        }
+
     </script>
 </body>
 

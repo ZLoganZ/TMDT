@@ -304,6 +304,7 @@
                     $('#chxboxAdmin').prop('checked', false);
                     $('#chxboxSeller').prop('checked', false);
                     $('#chxboxBidder').prop('checked', false);
+                     $('#chxboxAdmin').prop('disabled', false);
                     console.log(result);
                     $("#user_id").val(result.id);
                     $("#user_name").val(result.name);
@@ -315,6 +316,8 @@
                     for (let i = 0; i < listRole.length; i++) {
                         if (listRole[i] === 1) {
                             $('#chxboxAdmin').prop('checked', true);
+                            //disable checkbox admin
+                            $('#chxboxAdmin').prop('disabled', true);
                         }
                         else if (listRole[i] === 2) {
                             $('#chxboxSeller').prop('checked', true);

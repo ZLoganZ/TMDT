@@ -9,6 +9,7 @@
         value = value + money;
         document.getElementById('lower').setAttribute('hidden', '');
         document.getElementById('sure').setAttribute('hidden', '');
+        document.getElementById('nomoney').setAttribute('hidden', '');
         if(value >= max){
             document.getElementById('higher').removeAttribute('hidden');
             return;
@@ -21,6 +22,7 @@
         value = value - money;
         document.getElementById('higher').setAttribute('hidden', '');
         document.getElementById('sure').setAttribute('hidden', '');
+        document.getElementById('nomoney').setAttribute('hidden', '');
         if(value <= min){
             document.getElementById('lower').removeAttribute('hidden');
             return;
@@ -34,20 +36,27 @@
         document.getElementById('higher').setAttribute('hidden', '');
         count = 0;
         document.getElementById('text-price').value = money;
+        document.getElementById('nomoney').setAttribute('hidden', '');
     }
 
     function toggleHidden2() {
         document.getElementById('sure2').setAttribute('hidden', '');
+        document.getElementById('nomoney2').setAttribute('hidden', '');
         count = 0;
     }
 
     let count = 0;
-    function bid(id) {
+    function bid(id, money) {
         if (count == 0) {
             document.getElementById('lower').setAttribute('hidden', '');
             document.getElementById('higher').setAttribute('hidden', '');
             document.getElementById('sure').removeAttribute('hidden');
+            document.getElementById('nomoney').setAttribute('hidden', '');
             count++;
+        }
+        else if(parseInt(document.getElementById('text-price').value, 10) > money){
+            document.getElementById('nomoney').removeAttribute('hidden');
+            document.getElementById('sure').setAttribute('hidden', '');
         }
         else {
             let data = { id: id, price: $("#text-price").val() };
@@ -64,10 +73,15 @@
         }
     }
 
-    function buy(id){
+    function buy(id, money){
         if (count == 0) {
             document.getElementById('sure2').removeAttribute('hidden');
+            document.getElementById('nomoney2').setAttribute('hidden', '');
             count++;
+        }
+        else if(parseInt(document.getElementById('text-buy-price').value, 10) > money){
+            document.getElementById('nomoney2').removeAttribute('hidden');
+            document.getElementById('sure2').setAttribute('hidden', '');
         }
         else{
             let data = { id: id, price: $("#text-buy-price").val() };
@@ -706,9 +720,10 @@
                     <p class ="text-danger" id="sure" hidden>Bạn có chắc chắn đấu giá sản phẩm này không?</p>
                     <p class ="text-danger" id="higher" hidden >Ra giá không thể cao hơn hoặc bằng giá mua ngay</p>
                     <p class ="text-danger" id="lower" hidden >Ra giá không thể thấp hơn hoặc bằng giá hiện tại</p>
+                    <p class ="text-danger" id="nomoney" hidden >Bạn không đủ tiền để đấu giá!</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary normal-fontsize" onclick="bid({{this.product.id}})">Tôi
+                    <button type="button" class="btn btn-primary normal-fontsize" onclick="bid({{this.product.id}}, {{this.authUser.money}})">Tôi
                         chắc chắn</button>
                     <button type="button" class="btn btn-secondary normal-fontsize" data-dismiss="modal" onclick="toggleHidden({{this.product.recommend_price}})">Khoan
                         đã</button>
@@ -730,9 +745,10 @@
                     <input class="text-price" type="text" value="{{this.product.buynow_price}}"
                         id="text-buy-price" disabled/>&nbsp;₫
                     <p class ="text-danger" id="sure2" hidden>Bạn có chắc chắn đấu giá sản phẩm này không?</p>
+                    <p class ="text-danger" id="nomoney2" hidden >Bạn không đủ tiền để mua!</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary normal-fontsize" onclick="buy({{this.product.id}})">Tôi
+                    <button type="button" class="btn btn-primary normal-fontsize" onclick="buy({{this.product.id}}, {{this.authUser.money}})">Tôi
                         chắc chắn</button>
                     <button type="button" class="btn btn-secondary normal-fontsize" data-dismiss="modal" onclick="toggleHidden2()">Khoan
                         đã</button>

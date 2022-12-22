@@ -339,7 +339,7 @@ router.get('/fav', async(req, res) => {
 
 router.post('/bid_product', async(req, res) => {
     const product = await categoryModel.single_by_id('tblproduct', req.body.id);
-    const user = await categoryModel.single_by_id('tbluser', res.locals.authUser.id);
+    let user = await categoryModel.single_by_id('tbluser', res.locals.authUser.id);
 
     let listProductBidding = JSON.parse(user[0].list_product_bidding) || [];
     let productItem = {};
@@ -369,9 +369,30 @@ router.post('/bid_product', async(req, res) => {
     productItem["point"] = point[0].bidder;
     listBidder.push(bidderItem);
 
+    console.log("listBidder: ", listBidder);
+
+    if(listBidder.length >= 2){
+        const userBack = await categoryModel.single_by_id('tbluser', listBidder[listBidder.length - 2].id);
+
+        const rootMoney = userBack[0].money;
+        let returnMoney = parseInt(listBidder[listBidder.length - 2].price) +  parseInt(rootMoney);
+        console.log("id user back: ", userBack[0].id);
+        console.log("returnMoney: ", returnMoney);
+        entityID = { id: userBack[0].id };
+        entity = { money: returnMoney };
+        result = await categoryModel.edit('tbluser', entity, entityID);
+    }
+
+    user = await categoryModel.single_by_id('tbluser', res.locals.authUser.id);
+
     entityID = { id: product[0].id };
     entity = { list_bidder: JSON.stringify(listBidder) };
     result = await categoryModel.edit('tblproduct', entity, entityID);
+
+    let money = parseInt(user[0].money) - parseInt(req.body.price);
+    entityID = { id: user[0].id };
+    entity = { money: money };
+    result = await categoryModel.edit('tbluser', entity, entityID);
 
     res.send({ success: true });
 })

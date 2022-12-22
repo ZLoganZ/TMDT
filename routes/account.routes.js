@@ -173,7 +173,6 @@ router.post('/forgotpassword/checkotp', async(req, res) => {
 });
 
 router.get('/forgotpassword/changepassword', async(req, res) => {
-    console.log(req.query.id);
     res.render('guest/changepassword', {
         layout: false,
         "id": req.query.id

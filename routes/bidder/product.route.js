@@ -182,6 +182,7 @@ router.get('/winner', async(req, res) => {
         listProductWinner[i]["seller"] = product[0].seller;
         listProductWinner[i]["seller_point"] = product[0].seller_point;
         listProductWinner[i]["date_bid"] = product[0].date_bid;
+        listProductWinner[i]["isDeliveried"] = product[0].is_deliveried;
         console.log(listProductWinner);
         if (listProductWinner[i].isFeedback == 1) {
             listProductWinner[i]["feed_back"] = "Đã thích";
@@ -449,5 +450,18 @@ router.post('/buy_product_now', async(req, res) => {
 
     res.send({ success: true });
 })
+
+
+router.post('/acceptDeliveried', async(req, res) => {
+    const id = req.body.id;
+    const isDeliveried = parseInt(req.body.isDelivered);
+    console.log("id: ", id);
+    console.log("isDeliveried: ", isDeliveried);
+    const entityID = { id: id };
+    const entity = { is_deliveried: isDeliveried };
+    const result = await categoryModel.edit('tblproduct', entity, entityID);
+
+    res.send({ success: true });
+});
 
 module.exports = router;

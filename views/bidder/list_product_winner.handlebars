@@ -152,9 +152,12 @@
                             {{#each this.listProduct}}
                             <tr>
                                 <th scope="row" class="text-center">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalPayment">
+                                    {{#if isDeliveried}}
+                                    {{else}}
+                                    <button type="button" class="btn btn-primary" onclick="isDelivered({{id}})" data-toggle="modal" data-target="#ModalPayment">
                                             <i class="fa fa-trophy" style="color: #000;"></i>
                                     </button>
+                                    {{/if}}
                                 </th>
                                 <td>{{name}}</td>
                                 <td>{{cat_name}}</td>
@@ -242,7 +245,7 @@
               <div class="modal-dialog" role="document">
                <div class="modal-content">
                     <div class="modal-header">
-                 <h5 class="modal-title" id="exampleModalCenterTitle">Thanh Toán</h5>
+                 <h5 class="modal-title" id="exampleModalCenterTitle">Vận chuyển</h5>
                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
@@ -283,8 +286,8 @@
 
                     <div class="row mt-2 d-flex justify-content-end">
                         <div class="modal-footer">
-                            <button type="submit" formaction="/account/edit_for_Payment" class="btn btn-success mr-3">
-                            <i class="fa fa-save"></i>&nbsp;Lưu</button>
+                            <button type="submit" onclick="deliveredProduct()" class="btn btn-success mr-3">
+                            <i class="fa fa-save"></i>&nbsp;Đồng ý vận chuyển</button>
                              <button type="button" class="btn btn-danger" data-dismiss="modal"><i
                                      class="fa fa fa-arrow-left"></i>&nbsp;Quay lại</button>
                         </div>
@@ -372,6 +375,18 @@
         }
         function feed_back() {
             $.post('/bidder/product/feedBack', { "id": id, "status": status, "comment": $("#comment").val() }, function (response) {
+                if (response.success) {
+                    location.reload();
+                }
+            });
+        }
+        let is_Delivered = 0;
+        function isDelivered(idProduct){
+            is_Delivered = 1;
+            id = idProduct;
+        }
+        function deliveredProduct() {
+            $.post('/bidder/product/acceptDeliveried', { "id": id, "isDelivered": is_Delivered }, function (response) {
                 if (response.success) {
                     location.reload();
                 }

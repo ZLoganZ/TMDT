@@ -10,6 +10,9 @@ const passport = require('passport');
 const initializePassport = require('../config/passport-config');
 const flash = require('express-flash');
 const session = require('express-session')
+const mailer = require('../middlewares/mail.mdw');
+const otpGenerator = require('otp-generator');
+const querystring = require('querystring');
 
 initializePassport(
     passport,
@@ -31,32 +34,6 @@ router.get('/register', async(req, res) => {
     res.render('guest/register', { layout: false });
 });
 
-router.post('/verify', (req, res) => {
-    if (!req.body.captcha) {
-        console.log("err");
-        return res.json({ "success": false, "msg": "Capctha is not checked" });
-    }
-
-    const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body.captcha}`;
-
-    request(verifyUrl, (err, response, body) => {
-
-        if (err) { console.log(err); }
-
-        body = JSON.parse(body);
-
-        if (!body.success && body.success === undefined) {
-            return res.json({ "success": false, "msg": "captcha verification failed" });
-        } else if (body.score < 0.5) {
-            return res.json({ "success": false, "msg": "you might be a bot, sorry!", "score": body.score });
-        }
-
-        // return json message or continue with your function. Example: loading new page, ect
-        return res.json({ "success": true, "msg": "captcha verification passed", "score": body.score });
-
-    })
-})
-
 router.post('/register', async(req, res) => {
     const N = 10;
     const hash = bcrypt.hashSync(req.body.password, N);
@@ -68,20 +45,80 @@ router.post('/register', async(req, res) => {
             err_message: 'Email đã tồn tại'
         });
     }
+    try{
+        const newUser = {
+            "name": req.body.name,
+            "phone": req.body.phone,
+            "address": req.body.address,
+            "email": req.body.email,
+            "password": hash,
+            "role": '[3]',
+            "is_active": 1
+        };
+        const query = querystring.stringify(newUser);
+        res.redirect(`/account/register/checkotp?${query}`);
+    } catch (e){
+        console.log(e);
+    }
+    
+// const entity = {
+//         "name": req.body.name,
+//         "phone": req.body.phone,
+//         "address": req.body.address,
+//         "email": req.body.email,
+//         "password": hash,
+//         "role": '[3]',
+//         "is_active": 1
+//     };
+//     console.log(entity);
+//     const result = await categoryModel.add('tbluser', entity);
+//     res.render('guest/login', { layout: false, error: "Đăng ký tài khoản thành công" });
+});
 
-    const entity = {
-        "name": req.body.name,
-        "phone": req.body.phone,
-        "address": req.body.address,
-        "email": req.body.email,
-        "password": hash,
+router.get('/register/checkotp', async(req, res) => {
+    req.session.otp = otpGenerator.generate(6, { upperCase: false, specialChars: false });
+    await mailer.sendMailCheckOTP(req.query.email, req.session.otp);
+    res.render('guest/checkotp', {
+        layout: false,
+        message: `Chúng tôi đã gửi mã otp đến email ${req.query.email}, hãy nhập mã OTP để xác nhận`,
+        "name": req.query.name,
+        "phone": req.query.phone,
+        "address": req.query.address,
+        "email": req.query.email,
+        "password": req.query.password,
         "role": '[3]',
         "is_active": 1
-    };
+      });
+});
 
-    console.log(entity);
-    const result = await categoryModel.add('tbluser', entity);
-    res.render('guest/register', { layout: false });
+router.post('/register/checkotp', async(req, res) => {
+    const checkOTP = (req.body.otp == req.session.otp);
+    if(checkOTP){
+        const entity = {
+            "name": req.body.name,
+            "phone": req.body.phone,
+            "address": req.body.address,
+            "email": req.body.email,
+            "password": req.body.password,
+            "role": '[3]',
+            "is_active": 1
+        };
+        console.log(entity);
+        const result = await categoryModel.add('tbluser', entity);
+        res.render('guest/login', { layout: false, error: "Đăng ký tài khoản thành công" });
+    } else {
+        res.render('guest/checkotp', {
+            layout: false,
+            message: `Mã OTP không chính xác, hãy nhập lại`,
+            "name": req.body.name,
+            "phone": req.body.phone,
+            "address": req.body.address,
+            "email": req.body.email,
+            "password": req.body.password,
+            "role": '[3]',
+            "is_active": 1
+            });
+    }
 });
 
 router.get('/login', async(req, res) => {

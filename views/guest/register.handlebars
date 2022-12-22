@@ -37,7 +37,7 @@
                         <label for="phone" class="cols-sm-2 control-label">Số điện thoại</label>
                         <div class="cols-sm-10">
                             <div class="input-group">
-                                <input type="number" class="form-control" name="phone" id="phone"
+                                <input type="text" class="form-control" name="phone" id="phone"
                                     placeholder="0901234567" required>
                             </div>
                         </div>
@@ -85,10 +85,11 @@
 
                     <div class="g-recaptcha" data-sitekey="6LcePAATAAAAAGPRWgx90814DTjgt5sXnNbV5WaW"></div>
 
-                    <div class="form-group ">
-                        <button type="submit" id="button" class="btn btn-primary btn-lg btn-block login-button">Đăng
+                    <div class="form-group">
+                        <button type="submit" id="button" class="btn btn-primary rounded-pill btn-lg btn-block login-button">Đăng
                             ký</button>
                     </div>
+                    <p class="font-weight-normal d-flex justify-content-center align-items-center">Đã có tài khoản?&nbsp;<a href="/account/login"><strong> Đăng nhập ngay</strong></a></p>
 
                 </form>
             </div>
@@ -99,29 +100,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://www.google.com/recaptcha/api.js?render=6LeQAMwUAAAAALi0MsAeaNput8Yosk2oVNJ1Idd-"></script>
     <script>
-        document.getElementById("formRegister").addEventListener('submit', runVerify);
-        function runVerify(e) {
-            runCaptcha();
-        }
-
-        function runCaptcha() {
-            grecaptcha.execute('6LeQAMwUAAAAALi0MsAeaNput8Yosk2oVNJ1Idd-', { action: 'homepage' }).then(function (token) {
-                const captcha = token;
-                sendData(captcha);
-            });
-        }
-
-        function sendData(captcha) {
-            const info = JSON.stringify({ captcha: captcha });
-            fetch('/account/verify', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json, text/plain, */*',
-                    'Content-Type': 'application/json'
-                },
-                body: info
-            }).then(res => res.json()).then(data => { console.log("msg: " + data.msg + ", success?: " + data.success + ", score: " + data.score) })
-        }
+        
     </script>
 </body>
 

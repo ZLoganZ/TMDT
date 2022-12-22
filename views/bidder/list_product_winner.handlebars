@@ -247,16 +247,17 @@
                       <span aria-hidden="true">&times;</span>
                     </button>
                  </div>
-                        <div class="modal-body my-content-modal" style="background-color: #f7f7f8;">
-                            <form method="POST" id="form-edit-user">
-                                <input name="user_id" id="user_id" type="text" class="my-product-input pl-2"
-                                    value="{{this.user.id}}" style="display: none;" />
-                <div class="form-group row">
-                    <label for="staticName" class="col-sm-3 text-right">Họ Tên</label>
+
+            <div class="modal-body my-content-modal" style="background-color: #f7f7f8;">
+                <form method="POST" id="form-edit-user">
+                    <input name="user_id" id="user_id" type="text" class="my-product-input pl-2"
+                        value="{{this.user.id}}" style="display: none;" />
+                    <div class="form-group row">
+                        <label for="staticName" class="col-sm-3 text-right">Họ Tên</label>
                     <div class="col-sm-8">
                         <input type="text" class="form-control" id="user_name" name="user_name" value="{{this.user.name}}">
                     </div>
-                </div>
+                    </div>
 
                 <div class="form-group row">
                     <label for="staticName" class="col-sm-3 text-right">Số Điện Thoại</label>
@@ -280,18 +281,18 @@
                 </div>
 
 
-                                <div class="row mt-2 d-flex justify-content-end">
-                                    <div class="modal-footer">
-                                        <button type="submit" formaction="../../account/profile"
-                                            class="btn btn-success mr-3"><i class="fa fa-save"></i>&nbsp;Thanh Toán</button>
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal"><i
-                                                class="fa fa fa-arrow-left"></i>&nbsp;Quay lại</button>
-                                    </div>
-                                </div>
-                            </form>
+                    <div class="row mt-2 d-flex justify-content-end">
+                        <div class="modal-footer">
+                            <button type="submit" formaction="/admin/user/edit_for_Payment" class="btn btn-success mr-3">
+                            <i class="fa fa-save"></i>&nbsp;Lưu</button>
+                             <button type="button" class="btn btn-danger" data-dismiss="modal"><i
+                                     class="fa fa fa-arrow-left"></i>&nbsp;Quay lại</button>
                         </div>
-                </div>
-             </div>
+                    </div>
+                </form>
+            </div>
+            </div>
+            </div>
             </div>                
 
 

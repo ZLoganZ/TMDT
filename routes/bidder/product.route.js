@@ -242,31 +242,6 @@ router.get('/winner', async(req, res) => {
 })
 
 
-router.post('/Payment', async(req, res) => {
-    let entityId = { id: req.session.authUser.id };
-    const user = await categoryModel.single_by_id('tbluser', req.session.authUser.id);
-
-    const entity = {
-        "name": req.body.name,
-        "phone": req.body.phone,
-        "address": req.body.address,
-        "email": req.body.email,
-        "role": user[0].role,
-        "point": user[0].point,
-        "is_active": 1
-    };
-    try {
-        const edit = await categoryModel.edit("tbluser", entity, entityId);
-        console.log(edit);
-    } catch (err) {
-        console.log(err);
-    }
-
-    res.redirect('/')
-});
-
-
-
 
 //
 

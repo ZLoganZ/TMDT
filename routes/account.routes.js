@@ -104,7 +104,7 @@ router.post('/register/checkotp', async(req, res) => {
             "is_active": 1
         };
         const result = await categoryModel.add('tbluser', entity);
-        res.render('guest/login', { layout: false, error: "Đăng ký tài khoản thành công" });
+        res.redirect('/account/login');
     } else {
         res.render('guest/checkotp', {
             layout: false,
@@ -118,6 +118,78 @@ router.post('/register/checkotp', async(req, res) => {
             "is_active": 1
             });
     }
+});
+
+router.get('/forgotpassword', async(req, res) => {
+    res.render('guest/forgotpassword', { layout: false });
+});
+
+router.post('/forgotpassword', async(req, res) => {
+    const user = await categoryModel.single_by_email('tbluser', req.body.email);
+    if (user == null) {
+        return res.render('guest/forgotpassword', {
+            layout: false,
+            error: 'Email không tồn tại'
+        });
+    }
+    try{
+        const user = {
+            "email": req.body.email
+        }
+        const query = querystring.stringify(user);
+        res.redirect(`/account/forgotpassword/checkotp?${query}`);
+    } catch(e){
+        console.log(e);
+    }
+});
+
+router.get('/forgotpassword/checkotp', async(req, res) => {
+    req.session.otp = otpGenerator.generate(6, { upperCase: false, specialChars: false });
+    await mailer.sendMailCheckOTP(req.query.email, req.session.otp);
+    res.render('guest/checkotp', {
+        layout: false,
+        message: `Chúng tôi đã gửi mã otp đến email ${req.query.email}, hãy nhập mã OTP để xác nhận`,
+        "email": req.query.email
+        });
+});
+
+router.post('/forgotpassword/checkotp', async(req, res) => {
+    const checkOTP = (req.body.otp == req.session.otp);
+    if(checkOTP){
+        const user = await categoryModel.single_by_email('tbluser', req.body.email);
+        const id = user.id;
+        const entity = {
+            "id": id,
+        };
+        const query = querystring.stringify(entity);
+        res.redirect(`/account/forgotpassword/changepassword?${query}`);
+    } else {
+        res.render('guest/checkotp', {
+            layout: false,
+            message: `Mã OTP không chính xác, hãy nhập lại`,
+            "email": req.body.email
+            });
+    }
+});
+
+router.get('/forgotpassword/changepassword', async(req, res) => {
+    console.log(req.query.id);
+    res.render('guest/changepassword', {
+        layout: false,
+        "id": req.query.id
+    });
+});
+
+router.post('/forgotpassword/changepassword', async(req, res) => {
+    const pass = bcrypt.hashSync(req.body.password, 10);
+    console.log(req.body.id);
+    console.log(req.body.password);
+    const entityID = {"id": req.body.id};
+    const entity = {
+        "password": pass
+    };
+    const result = await categoryModel.edit('tbluser', entity, entityID);
+    res.redirect('/account/login');
 });
 
 router.get('/login', async(req, res) => {

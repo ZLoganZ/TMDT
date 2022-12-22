@@ -157,15 +157,16 @@
                             value="{{this.profile.address}}">
                     </div>
                 </div>
-
-                {{#if this.profile.is_seller }}
+                
                 <div class="form-group row">
-                    <label for="staticSdt" class="col-sm-2 col-form-label text-right">Đánh giá bidder</label>
-                    <div class="col-sm-8" style="padding-top: 10px;">
-                        <a class="status_like" href="/account/list_evaluate/bidder"> {{this.profile.likeBid}}%</a>
-                        {{!-- <p>Unlike: {{this.profile.unlikeBid}}%</p> --}}
+                    <label for="staticPass" class="col-sm-2 col-form-label text-right">Password</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="password" name="password"
+                            placeholder="Bỏ trống nếu bạn không muốn đổi mật khẩu.." value="">
                     </div>
                 </div>
+
+                {{#if this.profile.is_seller }}
                 <div class="form-group row">
                     <label for="staticSdt" class="col-sm-2 col-form-label text-right">Đánh giá seller</label>
                     <div class="col-sm-8" style="padding-top: 6px;">
@@ -180,7 +181,7 @@
                 {{#if this.profile.is_bidder}}
                 <div class="form-group row">
                     <label for="staticSdt" class="col-sm-2 col-form-label text-right">Đánh giá bidder</label>
-                    <div class="col-sm-8">
+                    <div class="col-sm-8" style="padding-top: 6px;">
                         <a class="status_like" href="/account/list_evaluate/bidder"> {{this.profile.likeBid}}%</a>
                         {{!-- <p>Unlike: {{this.profile.unlikeBid}}%</p> --}}
                     </div>

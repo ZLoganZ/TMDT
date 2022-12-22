@@ -311,12 +311,14 @@ router.get('/profile',restrict, async(req, res) => {
 router.post('/profile', async(req, res) => {
     let entityId = { id: req.session.authUser.id };
     const user = await categoryModel.single_by_id('tbluser', req.session.authUser.id);
+    const pass = (req.body.password == '' ? user[0].password : bcrypt.hashSync(req.body.password, 10));
 
     const entity = {
         "name": req.body.name,
         "phone": req.body.phone,
         "address": req.body.address,
         "email": req.body.email,
+        "password": pass,
         "role": user[0].role,
         "point": user[0].point,
         "is_active": 1

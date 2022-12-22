@@ -112,11 +112,13 @@
                                                                                             aria-hidden="true"></i>
                                                                                         Thông tin cá nhân
                                                                                     </a>
+                                                                                    {{#if isSeller}}
                                                                                     <a class="dropdown-item"
                                                                                         href="/seller/product" style="font-size: 15px;">
                                                                                         <i class="fas fa-tasks"></i>
                                                                                         Quản lý
                                                                                     </a>
+                                                                                    {{/if}}
                                                                                     <a class="dropdown-item"
                                                                                         href="javascript: logOut()" style="font-size: 15px;">
                                                                                         <i

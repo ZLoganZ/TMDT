@@ -59,7 +59,7 @@
             document.getElementById('sure').setAttribute('hidden', '');
         }
         else {
-            let data = { id: id, price: $("#text-price").val() };
+            let data = { id: id, price: $("#text-price").val(), money: money };
             $.ajax({
                 type: "POST",
                 url: '/bidder/product/bid_product',
@@ -84,7 +84,7 @@
             document.getElementById('sure2').setAttribute('hidden', '');
         }
         else{
-            let data = { id: id, price: $("#text-buy-price").val() };
+            let data = { id: id, price: $("#text-buy-price").val(), money: money };
             $.ajax({
                 type: "POST",
                 url: '/bidder/product/buy_product_now',

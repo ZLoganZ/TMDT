@@ -306,9 +306,8 @@
         });
 
         $(document).ready(function () {
-            $('#datetimepicker1').datetimepicker({});
-            let product = JSON.parse('{{{getContent this.product}}}');
-            quill.clipboard.dangerouslyPasteHTML(0, product.description);
+            let product_edit = {{{getContent this.product}}};
+            quill.clipboard.dangerouslyPasteHTML(0, product_edit.description);
         });
 
         $('#formPostProduct').on("submit", function () {

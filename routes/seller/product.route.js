@@ -212,14 +212,11 @@ router.post('/edit/:id', async(req, res) => {
         return res.render('error_permission', { layout: false });
     }
     const rows = await categoryModel.single_by_id('tblproduct', parseInt(req.params.id));
-    let oldDes = rows[0].description;
+    let des = rows[0].description;
 
-    let today = new Date(new Date().getTime());
-    let date = moment(today).format('DD-MM-YYYY HH:mm:ss');
-
-    oldDes += "<br><br><i class='icon-pencil'></i>&nbsp;" + date + "<br><br>" + req.body.description;
+    des = req.body.description;
     let entityId = { id: req.params.id };
-    let entity = { description: oldDes };
+    let entity = { description: des };
     const result = await categoryModel.edit('tblproduct', entity, entityId);
 
     res.redirect('/seller/product/');

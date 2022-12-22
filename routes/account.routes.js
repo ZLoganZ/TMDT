@@ -99,7 +99,25 @@ router.post('/login', passport.authenticate('local', {
         res.redirect(url);
     });
 
-
+router.post('/checkActive', async (req, res) => {
+        const user = req.session.authUser;
+        if(user) {
+            const authUser = await categoryModel.single_by_id('tbluser', user.id);
+            if(authUser[0]?.is_active == 2){
+                req.session.isAuthenticated = false;
+                req.session.authUser = null;
+                //res.redirect('/account/login');
+                res.send({"success" : true, error: "Tài khoản của bạn đã bị khóa"});
+                // return res.render('guest/login', { layout: false, error: "Tài khoản của bạn đã bị khóa" });
+            }
+            else{
+                res.send("Tài khoản của bạn đang hoạt động");
+            }
+        }
+        else{
+            res.send("Bạn chưa đăng nhập");
+        }
+});
 
 // router.post('/login', async(req, res) => {
 //     const user = await categoryModel.single_by_email('tbluser', req.body.email);

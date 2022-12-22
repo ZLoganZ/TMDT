@@ -100,6 +100,11 @@ router.post('/edit', async(req, res) => {
         json = JSON.stringify([req.body.role != null ?  parseInt(req.body.role) : '']);
     }
     let entity = {
+        "name" : req.body.user_name,
+        "phone" : req.body.user_phone,
+        "address" : req.body.user_address,
+        "email" : req.body.user_email,
+        "money" : req.body.money,
         "is_approve_seller": false,
         "role": json,
         "is_active": parseInt(req.body.user_status)

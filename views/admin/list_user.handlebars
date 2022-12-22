@@ -135,8 +135,9 @@
                                 <th scope="col" width="1%" style="font-weight:bold;">STT</th>
                                 <th scope="col" width="14%" style="font-weight:bold;">Tên người dùng</th>
                                 <th scope="col" width="10%" style="font-weight:bold;">Số điện thoại</th>
-                                <th scope="col" width="25%" style="font-weight:bold;">Địa chỉ</th>
+                                <th scope="col" width="8%" style="font-weight:bold;">Địa chỉ</th>
                                 <th scope="col" width="15%" style="font-weight:bold;">Email</th>
+                                <th scope="col" width="15%" style="font-weight:bold;">Money</th>
                                 <th scope="col" width="10%" style="font-weight:bold;">Quyền</th>
                                 <th scope="col" width="8%" style="font-weight:bold;">Muốn làm seller</th>
                                 <th scope="col" width="7%" style="font-weight:bold;">Trạng thái</th>
@@ -151,6 +152,7 @@
                                 <td>{{formatPhone phone}}</td>
                                 <td>{{address}}</td>
                                 <td>{{email}}</td>
+                                <td>{{format money}}</td>
                                 <td>{{#if role_name}}{{role_name}}{{else}}Không có quyền{{/if}}</td>
                                 <td>{{#if is_approve_seller}}Đang xin{{else}}Không{{/if}}</td>
                                 <td>{{status}}</td>
@@ -225,6 +227,19 @@
                                              />
                                     </div>
                                 </div>
+
+                                <div class="row mt-2 form-group">
+                                    <div class="col-sm-3 text-right">
+                                        <label for="user_address">Money:</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="my-product-input pl-2" name="user_money"
+                                            id="user_money" value="9999999999"
+                                             />
+                                    </div>
+                                </div>
+
+
 
                                 <div class="row mt-2 form-group">
                                     <div class="col-sm-3 text-right">
@@ -312,6 +327,7 @@
                     $("#user_email").val(result.email);
                     $("#user_phone").val(result.phone);
                     $("#user_address").val(result.address);
+                    $("#user_money").val(result.money);
                     $("#user_role").val(result.role);
                     let listRole = JSON.parse(result.role);
                     for (let i = 0; i < listRole.length; i++) {

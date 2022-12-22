@@ -103,7 +103,6 @@ router.post('/register/checkotp', async(req, res) => {
             "role": '[3]',
             "is_active": 1
         };
-        console.log(entity);
         const result = await categoryModel.add('tbluser', entity);
         res.render('guest/login', { layout: false, error: "Đăng ký tài khoản thành công" });
     } else {

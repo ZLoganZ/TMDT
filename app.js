@@ -112,8 +112,7 @@ let interval = setInterval(async() => {
 
         }
     }
-    console.log(today);
-}, 60000);
+}, 10000);
 
 function removeItemInList(list, id) {
     for (let j = list.length - 1; j >= 0; j--) {
@@ -371,7 +370,6 @@ app.get('/', async(req, res) => {
             list_top_price[i] = {...rows[i] };
         }
     }
-    // console.log(list_top_price);
     res.render('home', {
         activeItem,
         first_top_price,

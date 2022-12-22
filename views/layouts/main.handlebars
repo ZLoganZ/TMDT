@@ -320,9 +320,19 @@
             });
             location.reload();
         }
-        $( document ).ready(function() {
-        new WOW().init();
-        });
+        setInterval(function () {
+            $.ajax({
+                async: false,
+                type: "POST",
+                url: '/account/checkActive',
+                success: function (success) {
+                    console.log('success', success.success);
+                    if(success.success){
+                        location.href = '/account/login';
+                    }
+                }
+                });
+        }, 10000);
     </script>
     {{{_sections.js}}}
 </body>

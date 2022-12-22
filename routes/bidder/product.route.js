@@ -411,6 +411,11 @@ router.post('/buy_product_now', async(req, res) => {
     productItem["point"] = point[0].bidder;
     listBidder.push(bidderItem);
 
+    let money = parseInt(user[0].money) - parseInt(req.body.price);
+    entityID = { id: user[0].id };
+    entity = { money: money };
+    result = await categoryModel.edit('tbluser', entity, entityID);
+
     entityID = { id: product[0].id };
     entity = { list_bidder: JSON.stringify(listBidder) };
     result = await categoryModel.edit('tblproduct', entity, entityID);
@@ -418,6 +423,8 @@ router.post('/buy_product_now', async(req, res) => {
     result = await categoryModel.edit('tblproduct', entity, entityID);
     entity = { is_expired: 1 };
     result = await categoryModel.edit('tblproduct', entity, entityID);
+
+    res.locals.authUser.money = money;
 
     res.send({ success: true });
 })

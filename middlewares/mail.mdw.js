@@ -97,7 +97,7 @@ module.exports = {
         console.log("Gui mail CHECK OTP!!!")
         const from = 'vandatdinh2@gmail.com';
         let to = `${userMail}`;
-        const subject = 'Thông báo từ BidHub: gữi mã xác nhận đăng kí tài khoản'
+        const subject = 'Thông báo từ Online Auction: gửi mã xác nhận'
         const html = `<h3> Mã OTP: ${OTP}</h3>`;
         return sendMail(from, to, subject, html);
     },

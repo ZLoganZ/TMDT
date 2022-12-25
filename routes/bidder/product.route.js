@@ -347,7 +347,7 @@ router.post('/bid_product', async(req, res) => {
     productItem["id"] = product[0].id;
     productItem["price"] = parseInt(req.body.price);
 
-    let offsetGMT = 0;
+    let offsetGMT = 7;
     let today = new Date(new Date().getTime() + offsetGMT * 3600 * 1000);
     var current_date = today.getFullYear()+"-"+(today.getMonth()+1)+"-"+ today.getDate()+" "+today.getHours()+":"+today.getMinutes()+":"+ today.getSeconds();
     console.log("current_date: ", current_date);
@@ -407,7 +407,7 @@ router.post('/buy_product_now', async(req, res) => {
     productItem["id"] = product[0].id;
     productItem["price"] = parseInt(req.body.price);
 
-    let offsetGMT = 0;
+    let offsetGMT = 7;
     let today = new Date(new Date().getTime() + offsetGMT * 3600 * 1000);
     var current_date = today.getFullYear()+"-"+(today.getMonth()+1)+"-"+ today.getDate()+" "+today.getHours()+":"+today.getMinutes()+":"+ today.getSeconds();
     productItem["date"] = current_date;

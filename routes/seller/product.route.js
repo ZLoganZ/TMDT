@@ -16,7 +16,7 @@ router.get('/', async(req, res) => {
     const rowscat = await categoryModel.all("tblcategory");
     const rowsUser = await categoryModel.all('tbluser');
 
-    let offsetGMT = 0;
+    let offsetGMT = 7;
     let today = new Date(new Date().getTime() + offsetGMT * 3600 * 1000);
     console.log(today);
 
@@ -255,7 +255,7 @@ router.post('/post_product', async(req, res) => {
         return res.render('error_permission', { layout: false });
     }
     let entity = req.body;
-    let offsetGMT = 0;
+    let offsetGMT = 7;
     let today = new Date(new Date().getTime() + offsetGMT * 3600 * 1000);
     entity["id_seller"] = res.locals.authUser.id;
     entity["start_date"] = moment(today).format('YYYY-MM-DD HH:mm:ss');

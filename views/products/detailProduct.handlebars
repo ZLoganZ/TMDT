@@ -711,7 +711,7 @@
                 <div class="modal-body normal-fontsize">
                     <p style="color: black; font-weight:bold">Đấu giá sản phẩm {{this.product.name}} với mức giá:</p>
                     <form>
-                        <div class="value-button" id="decrease" onclick="decreaseValue({{this.product.min_increase}}, {{this.product.top_price}})" value="Decrease Value">-</div>
+                        <div class="value-button" id="decrease" onclick="decreaseValue({{this.product.min_increase}}, ({{this.product.top_price}} <= {{this.product.start_price}}) ? {{this.product.start_price}} : {{this.product.top_price}})" value="Decrease Value">-</div>
                         <input class="text-pricee" type="number" value="{{this.product.recommend_price}}"
                         id="text-price" disabled/>
                         <div class="value-button" id="increase" onclick="increaseValue({{this.product.min_increase}}, {{this.product.buynow_price}})" value="Increase Value">+</div>
